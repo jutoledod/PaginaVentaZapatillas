@@ -1,11 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SneakerStore - Tienda de Zapatillas</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-    
+    <!-- Navegación Fija -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <span class="navbar-brand">
+                <i class="fas fa-running"></i> SneakerStore
+            </span>
+            <div class="navbar-nav ms-auto">
+                <button class="nav-btn active" onclick="cargarPagina('inicio')">Inicio</button>
+                <button class="nav-btn" onclick="cargarPagina('productos')">Zapatillas</button>
+                <button class="nav-btn" onclick="cargarPagina('registro')">Registro</button>
+                <button class="nav-btn" onclick="cargarPagina('login')">Login</button>
+                <button class="nav-btn" onclick="cargarPagina('contacto')">Contacto</button>
+                <button class="nav-btn carrito-btn" onclick="cargarPagina('carrito')">
+                    <i class="fas fa-shopping-cart"></i> (<span id="contador">0</span>)
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal - Solo se carga UNA página a la vez -->
+    <main id="contenido-principal">
+        <!-- Aquí se carga dinámicamente el contenido -->
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script personalizado -->
+    <script src="script.js"></script>
 </body>
 </html>
