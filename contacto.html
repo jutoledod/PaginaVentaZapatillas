@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SneakerStore - Contacto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-running"></i> SneakerStore
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">Inicio</a>
+                <a class="nav-link" href="productos.html">Zapatillas</a>
+                <a class="nav-link" href="blogs.html">Blog</a>
+                <a class="nav-link" href="nosotros.html">Nosotros</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Formulario de Contacto -->
+    <div class="container py-5 mt-5">
+        <div class="form-nike">
+            <h2>Contáctanos</h2>
+            <form id="formContacto">
+                <div class="mb-3">
+                    <input type="text" class="form-control form-control-nike" id="nombreContacto" placeholder="Tu nombre" maxlength="100" required>
+                    <div class="error-nike" id="error-nombreContacto"></div>
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control form-control-nike" id="correoContacto" placeholder="Tu correo" maxlength="100" required>
+                    <div class="error-nike" id="error-correoContacto"></div>
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control form-control-nike" id="comentario" placeholder="Tu mensaje" maxlength="500" rows="4" required></textarea>
+                    <div class="error-nike" id="error-comentario"></div>
+                </div>
+                <button type="submit" class="btn-nike w-100">ENVIAR MENSAJE</button>
+            </form>
+            <div class="alert alert-success mt-3 d-none" id="exitoContacto">
+                ¡Mensaje enviado correctamente!
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/validaciones.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            inicializarFormularioContacto();
+        });
+    </script>
+</body>
+</html>

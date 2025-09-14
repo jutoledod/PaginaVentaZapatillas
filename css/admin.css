@@ -1,0 +1,181 @@
+/* Estilos para el panel administrativo */
+
+.admin-sidebar {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.admin-sidebar .list-group-item {
+    border: none;
+    border-radius: 0;
+    padding: 15px 20px;
+    transition: all 0.3s ease;
+}
+
+.admin-sidebar .list-group-item:hover {
+    background-color: #e9ecef;
+    transform: translateX(5px);
+}
+
+.admin-sidebar .list-group-item.active {
+    background-color: #111;
+    color: white;
+    border-left: 4px solid #ff6900;
+}
+
+.admin-sidebar .list-group-item i {
+    margin-right: 10px;
+    width: 20px;
+}
+
+.admin-content {
+    padding: 0 20px;
+}
+
+.admin-content h1 {
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 2rem;
+}
+
+/* Tarjetas de estadísticas */
+.admin-stat-card {
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.admin-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.admin-stat-card .card-body {
+    padding: 2rem;
+}
+
+.admin-stat-card h3 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.admin-stat-card p {
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Tablas */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead th {
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+}
+
+.table tbody td {
+    border-color: #f1f3f4;
+    padding: 15px;
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Formularios admin */
+.admin-content .form-label {
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 8px;
+}
+
+.admin-content .form-control,
+.admin-content .form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+
+.admin-content .form-control:focus,
+.admin-content .form-select:focus {
+    border-color: #111;
+    box-shadow: 0 0 0 0.2rem rgba(17,17,17,0.25);
+}
+
+/* Cards admin */
+.admin-content .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.admin-content .card-header {
+    background-color: #111;
+    color: white;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 1rem 1.5rem;
+}
+
+.admin-content .card-header h5 {
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Botones admin */
+.admin-content .btn {
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.admin-content .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Badges admin */
+.admin-content .badge {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+/* Responsive admin */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        margin-bottom: 20px;
+    }
+    
+    .admin-content {
+        padding: 0 10px;
+    }
+    
+    .admin-stat-card .card-body {
+        padding: 1.5rem;
+    }
+    
+    .admin-stat-card h3 {
+        font-size: 2rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+/* Alertas admin */
+.admin-content .alert {
+    border: none;
+    border-radius: 10px;
+    padding: 15px 20px;
+}

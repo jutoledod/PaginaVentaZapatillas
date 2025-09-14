@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SneakerStore - Blog Detalle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-running"></i> SneakerStore
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">Inicio</a>
+                <a class="nav-link" href="productos.html">Zapatillas</a>
+                <a class="nav-link" href="blogs.html">Blog</a>
+                <a class="nav-link" href="nosotros.html">Nosotros</a>
+                <a class="nav-link" href="contacto.html">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido del Blog -->
+    <div class="container py-5 mt-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div id="blog-contenido">
+                    <!-- Se carga con JavaScript -->
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="blogs.html" class="btn-nike">
+                        <i class="fas fa-arrow-left"></i> Volver al Blog
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Contenido detallado de blogs
+        const blogDetalle = {
+            1: {
+                titulo: 'Guía completa: Cómo elegir zapatillas running',
+                imagen: '🏃‍♀️',
+                fecha: '2024-01-15',
+                contenido: `
+                    <p>Elegir las zapatillas de running correctas es fundamental para evitar lesiones y mejorar tu rendimiento. En esta guía te explicamos todo lo que necesitas saber.</p>
+                    
+                    <h3>1. Conoce tu tipo de pisada</h3>
+                    <p>Existen tres tipos principales de pisada: pronadora, supinadora y neutra. Identificar tu tipo te ayudará a elegir las zapatillas adecuadas.</p>
+                    
+                    <h3>2. Considera el terreno</h3>
+                    <p>Las zapatillas para asfalto son diferentes a las de trail. Asegúrate de elegir según donde vayas a correr más frecuentemente.</p>
+                    
+                    <h3>3. Amortiguación y soporte</h3>
+                    <p>Dependiendo de tu peso y estilo de carrera, necesitarás diferentes niveles de amortiguación y soporte.</p>
+                    
+                    <h3>4. Talla correcta</h3>
+                    <p>Siempre deja un espacio de aproximadamente 1cm entre tu dedo más largo y la punta de la zapatilla.</p>
+                `
+            },
+            2: {
+                titulo: 'Tendencias 2024: Sneakers más populares',
+                imagen: '👟',
+                fecha: '2024-01-10',
+                contenido: `
+                    <p>Este año las tendencias en calzado deportivo se inclinan hacia diseños retro con toques modernos y tecnologías innovadoras.</p>
+                    
+                    <h3>Colores en tendencia</h3>
+                    <p>Los colores neutros como blanco, beige y gris siguen dominando, pero vemos un regreso de colores vibrantes como el verde lima y azul eléctrico.</p>
+                    
+                    <h3>Siluetas destacadas</h3>
+                    <p>Las siluetas chunky (voluminosas) mantienen su popularidad, especialmente en modelos de lifestyle y casual.</p>
+                    
+                    <h3>Materiales sostenibles</h3>
+                    <p>Cada vez más marcas incorporan materiales reciclados y procesos de producción más sostenibles.</p>
+                    
+                    <h3>Colaboraciones especiales</h3>
+                    <p>Las colaboraciones entre marcas y artistas, diseñadores o celebridades siguen siendo muy demandadas.</p>
+                `
+            }
+        };
+        
+        // Cargar detalle del blog
+        function cargarBlogDetalle() {
+            // Obtener ID del blog desde la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const blogId = parseInt(urlParams.get('id')) || 1;
+            
+            const blog = blogDetalle[blogId];
+            const contenedor = document.getElementById('blog-contenido');
+            
+            if (blog) {
+                contenedor.innerHTML = `
+                    <div class="text-center mb-4">
+                        <div style="font-size: 6rem;">${blog.imagen}</div>
+                        <h1 style="font-weight: 700;">${blog.titulo}</h1>
+                        <p class="text-muted">
+                            <i class="fas fa-calendar"></i> ${blog.fecha}
+                        </p>
+                    </div>
+                    <div class="blog-contenido">
+                        ${blog.contenido}
+                    </div>
+                `;
+            } else {
+                contenedor.innerHTML = `
+                    <div class="alert alert-warning">
+                        <h4>Blog no encontrado</h4>
+                        <p>El artículo que buscas no existe.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarBlogDetalle();
+        });
+    </script>
+    
+    <style>
+        .blog-contenido h3 {
+            color: #111;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-contenido p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+    </style>
+</body>
+</html>

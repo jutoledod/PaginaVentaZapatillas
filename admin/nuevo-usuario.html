@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SneakerStore - Nuevo Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <!-- Navegación Admin -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../index.html">
+                <i class="fas fa-running"></i> SneakerStore Admin
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="../index.html">
+                    <i class="fas fa-home"></i> Volver a Tienda
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Layout Admin -->
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2">
+                <div class="admin-sidebar">
+                    <div class="list-group list-group-flush">
+                        <a href="home.html" class="list-group-item list-group-item-action">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                        <a href="lista-productos.html" class="list-group-item list-group-item-action">
+                            <i class="fas fa-shoe-prints"></i> Productos
+                        </a>
+                        <a href="lista-usuarios.html" class="list-group-item list-group-item-action active">
+                            <i class="fas fa-users"></i> Usuarios
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenido Principal -->
+            <div class="col-md-9 col-lg-10">
+                <div class="admin-content">
+                    <h1 class="mb-4">Nuevo Usuario</h1>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="formNuevoUsuario">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">RUN *</label>
+                                            <input type="text" class="form-control" id="run" placeholder="12345678K" minlength="7" maxlength="9" required>
+                                            <div class="error-nike" id="error-run"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nombre *</label>
+                                            <input type="text" class="form-control" id="nombre" maxlength="50" required>
+                                            <div class="error-nike" id="error-nombre"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Apellidos *</label>
+                                    <input type="text" class="form-control" id="apellidos" maxlength="100" required>
+                                    <div class="error-nike" id="error-apellidos"></div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Correo Electrónico *</label>
+                                    <input type="email" class="form-control" id="correo" maxlength="100" required>
+                                    <div class="error-nike" id="error-correo"></div>
+                                    <small class="text-muted">Solo correos @duoc.cl, @profesor.duoc.cl o @gmail.com</small>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha de Nacimiento</label>
+                                    <input type="date" class="form-control" id="fechaNacimiento">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Usuario *</label>
+                                    <select class="form-select" id="tipoUsuario" required>
+                                        <option value="">Seleccionar tipo</option>
+                                        <option value="administrador">Administrador</option>
+                                        <option value="vendedor">Vendedor</option>
+                                        <option value="cliente">Cliente</option>
+                                    </select>
+                                    <div class="error-nike" id="error-tipoUsuario"></div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Región *</label>
+                                            <select class="form-select" id="region" required>
+                                                <option value="">Seleccionar región</option>
+                                            </select>
+                                            <div class="error-nike" id="error-region"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Comuna *</label>
+                                            <select class="form-select" id="comuna" required>
+                                                <option value="">Seleccionar comuna</option>
+                                            </select>
+                                            <div class="error-nike" id="error-comuna"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Dirección *</label>
+                                    <input type="text" class="form-control" id="direccion" maxlength="300" required>
+                                    <div class="error-nike" id="error-direccion"></div>
+                                </div>
+                                
+                                <div class="alert alert-info">
+                                    <h6><i class="fas fa-info-circle"></i> Roles del Sistema:</h6>
+                                    <ul class="mb-0">
+                                        <li><strong>Administrador:</strong> Acceso total al sistema</li>
+                                        <li><strong>Vendedor:</strong> Puede ver productos y órdenes</li>
+                                        <li><strong>Cliente:</strong> Solo acceso a la tienda</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="text-end">
+                                    <a href="lista-usuarios.html" class="btn btn-secondary me-2">
+                                        <i class="fas fa-times"></i> Cancelar
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Crear Usuario
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <div class="alert alert-success mt-3 d-none" id="exitoUsuario">
+                                ¡Usuario creado exitosamente!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/regiones.js"></script>
+    <script src="../js/validaciones.js"></script>
+    <script>
+        // Inicializar formulario de nuevo usuario - Como en tus clases
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar regiones
+            cargarRegiones();
+            
+            // Form submit
+            document.getElementById('formNuevoUsuario').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let valido = true;
+                
+                // Validar RUN - Como en tus validaciones
+                const run = document.getElementById('run').value.trim();
+                if (!run) {
+                    mostrarError('run', 'El RUN es requerido');
+                    valido = false;
+                } else if (run.length < 7 || run.length > 9) {
+                    mostrarError('run', 'El RUN debe tener entre 7 y 9 caracteres');
+                    valido = false;
+                } else if (!validarRUN(run)) {
+                    mostrarError('run', 'RUN inválido');
+                    valido = false;
+                } else {
+                    limpiarError('run');
+                }
+                
+                // Validar nombre
+                const nombre = document.getElementById('nombre').value.trim();
+                if (!nombre) {
+                    mostrarError('nombre', 'El nombre es requerido');
+                    valido = false;
+                } else if (nombre.length > 50) {
+                    mostrarError('nombre', 'Máximo 50 caracteres');
+                    valido = false;
+                } else {
+                    limpiarError('nombre');
+                }
+                
+                // Validar apellidos
+                const apellidos = document.getElementById('apellidos').value.trim();
+                if (!apellidos) {
+                    mostrarError('apellidos', 'Los apellidos son requeridos');
+                    valido = false;
+                } else if (apellidos.length > 100) {
+                    mostrarError('apellidos', 'Máximo 100 caracteres');
+                    valido = false;
+                } else {
+                    limpiarError('apellidos');
+                }
+                
+                // Validar correo - Como en tus validaciones
+                const correo = document.getElementById('correo').value.trim();
+                if (!correo) {
+                    mostrarError('correo', 'El correo es requerido');
+                    valido = false;
+                } else if (correo.length > 100) {
+                    mostrarError('correo', 'Máximo 100 caracteres');
+                    valido = false;
+                } else if (!validarEmail(correo)) {
+                    mostrarError('correo', 'Solo correos @duoc.cl, @profesor.duoc.cl o @gmail.com');
+                    valido = false;
+                } else {
+                    limpiarError('correo');
+                }
+                
+                // Validar tipo de usuario
+                const tipoUsuario = document.getElementById('tipoUsuario').value;
+                if (!tipoUsuario) {
+                    mostrarError('tipoUsuario', 'El tipo de usuario es requerido');
+                    valido = false;
+                } else {
+                    limpiarError('tipoUsuario');
+                }
+                
+                // Validar región
+                const region = document.getElementById('region').value;
+                if (!region) {
+                    mostrarError('region', 'La región es requerida');
+                    valido = false;
+                } else {
+                    limpiarError('region');
+                }
+                
+                // Validar comuna
+                const comuna = document.getElementById('comuna').value;
+                if (!comuna) {
+                    mostrarError('comuna', 'La comuna es requerida');
+                    valido = false;
+                } else {
+                    limpiarError('comuna');
+                }
+                
+                // Validar dirección
+                const direccion = document.getElementById('direccion').value.trim();
+                if (!direccion) {
+                    mostrarError('direccion', 'La dirección es requerida');
+                    valido = false;
+                } else if (direccion.length > 300) {
+                    mostrarError('direccion', 'Máximo 300 caracteres');
+                    valido = false;
+                } else {
+                    limpiarError('direccion');
+                }
+                
+                if (valido) {
+                    document.getElementById('exitoUsuario').classList.remove('d-none');
+                    this.reset();
+                    setTimeout(() => {
+                        window.location.href = 'lista-usuarios.html';
+                    }, 2000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

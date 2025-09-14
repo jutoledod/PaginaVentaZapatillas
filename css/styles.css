@@ -1,0 +1,156 @@
+/* Variables - Como en tus clases */
+:root {
+    --negro: #111;
+    --gris: #757575;
+    --blanco: #fff;
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--blanco);
+    padding-top: 70px;
+}
+
+/* Navegación estilo Nike */
+.navbar {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.carrito-btn {
+    background-color: #ff6900 !important;
+    color: white !important;
+    border-radius: 20px;
+    padding: 8px 16px !important;
+}
+
+/* Hero section estilo Nike */
+.hero-nike {
+    min-height: 80vh;
+    background: linear-gradient(135deg, var(--negro) 0%, #333 100%);
+    display: flex;
+    align-items: center;
+    color: var(--blanco);
+    margin-top: -70px;
+    padding-top: 70px;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #ccc;
+}
+
+.btn-nike {
+    background-color: var(--negro);
+    color: var(--blanco);
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-nike:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+    color: var(--blanco);
+}
+
+/* Cards estilo Nike */
+.zapatilla-card {
+    background: var(--blanco);
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.zapatilla-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.zapatilla-imagen {
+    height: 250px;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+}
+
+.precio-nike {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--negro);
+}
+
+.marca-badge {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Formularios estilo Nike */
+.form-nike {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 40px;
+    background: var(--blanco);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.form-nike h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.form-control-nike {
+    border: none;
+    border-bottom: 2px solid #e5e5e5;
+    border-radius: 0;
+    padding: 15px 0;
+    font-size: 1rem;
+    background: transparent;
+}
+
+.form-control-nike:focus {
+    border-bottom-color: var(--negro);
+    box-shadow: none;
+    background: transparent;
+}
+
+.error-nike {
+    color: #d43f21;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1.2rem;
+    }
+    
+    .zapatilla-imagen {
+        font-size: 4rem;
+        height: 200px;
+    }
+}
