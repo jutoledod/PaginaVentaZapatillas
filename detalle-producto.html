@@ -45,7 +45,6 @@
     <script>
         // Cargar detalle del producto
         function cargarDetalleProducto() {
-            // Obtener ID del producto desde la URL
             const urlParams = new URLSearchParams(window.location.search);
             const productoId = parseInt(urlParams.get('id')) || 1;
             
@@ -111,14 +110,20 @@
                             </div>
                             
                             <div class="d-grid gap-2">
-                                <button class="btn-nike btn-lg" onclick="agregarAlCarrito(${producto.id})" 
-                                    ${producto.stock <= 0 ? 'disabled' : ''}>
+                                <button class="btn-nike btn-lg" id="btn-agregar" ${producto.stock <= 0 ? 'disabled' : ''}>
                                     <i class="fas fa-cart-plus"></i> Agregar al Carrito
                                 </button>
                             </div>
                         </div>
                     </div>
                 `;
+
+                // Conectar botón al carrito **con talla**
+                const btn = document.getElementById('btn-agregar');
+                btn.addEventListener('click', function() {
+                    const talla = document.getElementById('talla-seleccionada').value;
+                    agregarAlCarrito(producto.id, talla);
+                });
             } else {
                 contenedor.innerHTML = `
                     <div class="alert alert-warning text-center">

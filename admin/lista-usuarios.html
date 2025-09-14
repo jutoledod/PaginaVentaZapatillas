@@ -1,195 +1,175 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SneakerStore - Lista Usuarios</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/admin.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SneakerStore - Lista Usuarios</title>
+
+  <!-- Guard de admin (demo): si no hay sesión admin, redirige a login -->
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('esAdmin') !== 'true') {
+          window.location.replace('../login.html');
+        }
+      } catch (e) {
+        window.location.replace('../login.html');
+      }
+    })();
+  </script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../css/styles.css"/>
+  <link rel="stylesheet" href="../css/admin.css"/>
 </head>
 <body>
-    <!-- Navegación Admin -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="../index.html">
-                <i class="fas fa-running"></i> SneakerStore Admin
-            </a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="../index.html">
-                    <i class="fas fa-home"></i> Volver a Tienda
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Layout Admin -->
-    <div class="container-fluid mt-3">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2">
-                <div class="admin-sidebar">
-                    <div class="list-group list-group-flush">
-                        <a href="home.html" class="list-group-item list-group-item-action">
-                            <i class="fas fa-home"></i> Dashboard
-                        </a>
-                        <a href="lista-productos.html" class="list-group-item list-group-item-action">
-                            <i class="fas fa-shoe-prints"></i> Productos
-                        </a>
-                        <a href="lista-usuarios.html" class="list-group-item list-group-item-action active">
-                            <i class="fas fa-users"></i> Usuarios
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Contenido Principal -->
-            <div class="col-md-9 col-lg-10">
-                <div class="admin-content">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h1>Gestión de Usuarios</h1>
-                        <a href="nuevo-usuario.html" class="btn btn-primary">
-                            <i class="fas fa-user-plus"></i> Nuevo Usuario
-                        </a>
-                    </div>
-                    
-                    <!-- Tabla de Usuarios -->
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>RUN</th>
-                                            <th>Nombre Completo</th>
-                                            <th>Correo</th>
-                                            <th>Región</th>
-                                            <th>Tipo Usuario</th>
-                                            <th>Estado</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tabla-usuarios">
-                                        <!-- Se carga con JavaScript -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <!-- Navegación Admin -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../index.html">
+        <i class="fas fa-running"></i> SneakerStore Admin
+      </a>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="../index.html">
+          <i class="fas fa-home"></i> Volver a Tienda
+        </a>
+        <a class="nav-link" href="#" onclick="logout(); return false;">
+          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+        </a>
+      </div>
     </div>
+  </nav>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Array de usuarios de ejemplo - Como en tus clases
-        const usuarios = [
-            {
-                id: 1,
-                run: '12345678K',
-                nombre: 'Juan',
-                apellidos: 'Pérez González',
-                correo: 'juan@duoc.cl',
-                region: 'metropolitana',
-                comuna: 'Santiago',
-                tipoUsuario: 'cliente',
-                activo: true
-            },
-            {
-                id: 2,
-                run: '98765432F',
-                nombre: 'María',
-                apellidos: 'López Silva',
-                correo: 'maria@profesor.duoc.cl',
-                region: 'valparaiso',
-                comuna: 'Viña del Mar',
-                tipoUsuario: 'administrador',
-                activo: true
-            },
-            {
-                id: 3,
-                run: '11222333G',
-                nombre: 'Carlos',
-                apellidos: 'Martínez Torres',
-                correo: 'carlos@gmail.com',
-                region: 'biobio',
-                comuna: 'Concepción',
-                tipoUsuario: 'vendedor',
-                activo: false
-            },
-            {
-                id: 4,
-                run: '44555666H',
-                nombre: 'Ana',
-                apellidos: 'González Rojas',
-                correo: 'ana@duoc.cl',
-                region: 'metropolitana',
-                comuna: 'Las Condes',
-                tipoUsuario: 'cliente',
-                activo: true
-            }
-        ];
+  <!-- Layout Admin -->
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-3 col-lg-2">
+        <div class="admin-sidebar">
+          <div class="list-group list-group-flush">
+            <a href="home.html" class="list-group-item list-group-item-action">
+              <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="lista-productos.html" class="list-group-item list-group-item-action">
+              <i class="fas fa-shoe-prints"></i> Productos
+            </a>
+            <a href="lista-usuarios.html" class="list-group-item list-group-item-action active">
+              <i class="fas fa-users"></i> Usuarios
+            </a>
+          </div>
+        </div>
+      </div>
 
-        // Función para obtener color del tipo de usuario
-        function getTipoUsuarioColor(tipo) {
-            const colores = {
-                'administrador': 'bg-danger',
-                'vendedor': 'bg-warning text-dark',
-                'cliente': 'bg-primary'
-            };
-            return colores[tipo] || 'bg-secondary';
-        }
+      <!-- Contenido Principal -->
+      <div class="col-md-9 col-lg-10">
+        <div class="admin-content">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Gestión de Usuarios</h1>
+            <a href="nuevo-usuario.html" class="btn btn-primary">
+              <i class="fas fa-user-plus"></i> Nuevo Usuario
+            </a>
+          </div>
 
-        // Mostrar usuarios en tabla - Como en tus clases
-        function mostrarTablaUsuarios() {
-            const tbody = document.getElementById('tabla-usuarios');
-            tbody.innerHTML = '';
-            
-            usuarios.forEach(usuario => {
-                const estadoClass = usuario.activo ? 'bg-success' : 'bg-secondary';
-                const estadoTexto = usuario.activo ? 'Activo' : 'Inactivo';
-                
-                tbody.innerHTML += `
+          <!-- Tabla de Usuarios -->
+          <div class="card">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                  <thead class="table-dark">
                     <tr>
-                        <td><code>${usuario.run}</code></td>
-                        <td>${usuario.nombre} ${usuario.apellidos}</td>
-                        <td>${usuario.correo}</td>
-                        <td>${usuario.region}</td>
-                        <td><span class="badge ${getTipoUsuarioColor(usuario.tipoUsuario)}">${usuario.tipoUsuario.toUpperCase()}</span></td>
-                        <td><span class="badge ${estadoClass}">${estadoTexto}</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editarUsuario(${usuario.id})">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-danger" onclick="eliminarUsuario(${usuario.id})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
+                      <th>RUN</th>
+                      <th>Nombre Completo</th>
+                      <th>Correo</th>
+                      <th>Región</th>
+                      <th>Tipo Usuario</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
                     </tr>
-                `;
-            });
-        }
-        
-        // Funciones de administración (simuladas) - Como en tus clases
-        function editarUsuario(id) {
-            alert(`Editar usuario ID: ${id}`);
-            // Aquí iría la lógica para editar
-        }
-        
-        function eliminarUsuario(id) {
-            if (confirm('¿Estás seguro de eliminar este usuario?')) {
-                alert(`Usuario ID: ${id} eliminado`);
-                // Aquí iría la lógica para eliminar
-            }
-        }
-        
-        // Inicializar - Como en tus clases
-        document.addEventListener('DOMContentLoaded', function() {
-            mostrarTablaUsuarios();
-        });
-    </script>
+                  </thead>
+                  <tbody id="tabla-usuarios">
+                    <!-- Se carga con JavaScript -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- /Tabla -->
+        </div>
+      </div>
+      <!-- /Contenido Principal -->
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    // Datos de ejemplo (demo)
+    const usuarios = [
+      { id: 1, run: '12345678K', nombre: 'Juan',  apellidos: 'Pérez González',   correo: 'juan@duoc.cl',             region: 'metropolitana', comuna: 'Santiago',     tipoUsuario: 'cliente',       activo: true  },
+      { id: 2, run: '98765432F', nombre: 'María', apellidos: 'López Silva',      correo: 'maria@profesor.duoc.cl',  region: 'valparaiso',    comuna: 'Viña del Mar', tipoUsuario: 'administrador', activo: true  },
+      { id: 3, run: '11222333G', nombre: 'Carlos',apellidos: 'Martínez Torres',  correo: 'carlos@gmail.com',        region: 'biobio',        comuna: 'Concepción',   tipoUsuario: 'vendedor',      activo: false },
+      { id: 4, run: '44555666H', nombre: 'Ana',   apellidos: 'González Rojas',   correo: 'ana@duoc.cl',             region: 'metropolitana', comuna: 'Las Condes',   tipoUsuario: 'cliente',       activo: true  },
+    ];
+
+    function getTipoUsuarioColor(tipo) {
+      const colores = {
+        administrador: 'bg-danger',
+        vendedor: 'bg-warning text-dark',
+        cliente: 'bg-primary',
+      };
+      return colores[tipo] || 'bg-secondary';
+    }
+
+    function mostrarTablaUsuarios() {
+      const tbody = document.getElementById('tabla-usuarios');
+      if (!tbody) return;
+
+      if (!usuarios.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">No hay usuarios cargados</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = '';
+      usuarios.forEach((u) => {
+        const estadoClass = u.activo ? 'bg-success' : 'bg-secondary';
+        const estadoTexto = u.activo ? 'Activo' : 'Inactivo';
+
+        tbody.innerHTML += `
+          <tr>
+            <td><code>${u.run}</code></td>
+            <td>${u.nombre} ${u.apellidos}</td>
+            <td>${u.correo}</td>
+            <td>${u.region}</td>
+            <td><span class="badge ${getTipoUsuarioColor(u.tipoUsuario)}">${String(u.tipoUsuario).toUpperCase()}</span></td>
+            <td><span class="badge ${estadoClass}">${estadoTexto}</span></td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-1" onclick="editarUsuario(${u.id})" title="Editar">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" onclick="eliminarUsuario(${u.id})" title="Eliminar">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // Acciones (demo)
+    function editarUsuario(id) {
+      alert(`Editar usuario ID: ${id}`);
+    }
+    function eliminarUsuario(id) {
+      if (confirm('¿Estás seguro de eliminar este usuario?')) {
+        alert(`Usuario ID: ${id} eliminado`);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      mostrarTablaUsuarios();
+    });
+  </script>
 </body>
 </html>
