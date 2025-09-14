@@ -175,3 +175,7 @@ window.mostrarEnlacesAdmin = mostrarEnlacesAdmin;
 window.ocultarEnlacesAdmin = ocultarEnlacesAdmin;
 window.verificarSesionAdmin = verificarSesionAdmin;
 window.logout = logout;
+
+
+
+

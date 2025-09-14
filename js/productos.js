@@ -1,4 +1,4 @@
-// Array de zapatillas - Como en tus clases
+// Array de zapatillas - 
 const productos = [
     {
         id: 1,
@@ -62,7 +62,7 @@ const productos = [
     }
 ];
 
-// Función para formatear precio - Como en tus clases
+// Función para formatear precio - 
 function formatearPrecio(precio) {
     return '$' + precio.toLocaleString('es-CL');
 }
