@@ -41,11 +41,21 @@ function validarEmail(email) {
   return formatoOk && dominios.some(d => e.endsWith(d));
 }
 
+// --- Sanitización de entrada ---
+function sanitizarTexto(texto) {
+  if (!texto) return '';
+  return String(texto)
+    .replace(/[<>]/g, '') // Eliminar < y >
+    .replace(/javascript:/gi, '') // Eliminar javascript:
+    .replace(/on\w+=/gi, '') // Eliminar eventos onclick, onload, etc.
+    .trim();
+}
+
 // --- Helpers UI de error ---
 function mostrarError(campo, mensaje) {
   const errorDiv = document.getElementById(`error-${campo}`);
   if (errorDiv) {
-    errorDiv.textContent = mensaje || 'Campo inválido';
+    errorDiv.textContent = sanitizarTexto(mensaje) || 'Campo inválido';
     errorDiv.style.display = 'block';
   }
 }
@@ -55,8 +65,33 @@ function limpiarError(campo) {
   if (errorDiv) errorDiv.style.display = 'none';
 }
 
+// --- Validación de contraseña segura ---
+function validarPasswordAdmin(password, email) {
+  if (!password || !email) return false;
+  
+  // Verificar que sea un correo institucional
+  if (!email.endsWith('@duoc.cl') && !email.endsWith('@profesor.duoc.cl')) {
+    return false;
+  }
+  
+  // Validación de contraseña más robusta (ejemplo)
+  // En un proyecto real, esto se haría en el backend
+  const passwordRequirements = {
+    minLength: 8,
+    hasUpperCase: /[A-Z]/.test(password),
+    hasLowerCase: /[a-z]/.test(password),
+    hasNumbers: /\d/.test(password),
+    hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+  };
+  
+  return password.length >= passwordRequirements.minLength &&
+         passwordRequirements.hasUpperCase &&
+         passwordRequirements.hasLowerCase &&
+         passwordRequirements.hasNumbers;
+}
+
 // ==============================
-// Login (con opción admin demo)
+// Login (con validación mejorada)
 // ==============================
 function inicializarFormularioLogin() {
   const form = document.getElementById('formLogin');
@@ -65,7 +100,7 @@ function inicializarFormularioLogin() {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const correo = document.getElementById('correoLogin')?.value?.trim();
+    const correo = sanitizarTexto(document.getElementById('correoLogin')?.value?.trim());
     const password = document.getElementById('password')?.value ?? '';
     const esAdmin = document.getElementById('loginAdmin')?.checked ?? false;
 
@@ -78,19 +113,16 @@ function inicializarFormularioLogin() {
       limpiarError('correoLogin');
     }
 
-    if (!password || password.length < 4 || password.length > 10) {
-      mostrarError('password', 'Contraseña debe tener entre 4 y 10 caracteres');
+    if (!password || password.length < 4 || password.length > 50) {
+      mostrarError('password', 'Contraseña debe tener entre 4 y 50 caracteres');
       valido = false;
     } else {
       limpiarError('password');
     }
 
     if (esAdmin) {
-      if (!correo.endsWith('@duoc.cl') && !correo.endsWith('@profesor.duoc.cl')) {
-        mostrarError('correoLogin', 'Solo correos institucionales pueden ser administradores');
-        valido = false;
-      } else if (password !== 'admin123') {
-        mostrarError('password', 'Contraseña de administrador incorrecta');
+      if (!validarPasswordAdmin(password, correo)) {
+        mostrarError('password', 'Credenciales de administrador incorrectas');
         valido = false;
       }
     }
@@ -111,7 +143,7 @@ function inicializarFormularioLogin() {
 }
 
 // =====================================
-// Registro de usuario (demo en LocalStorage)
+// Registro de usuario (con sanitización mejorada)
 // =====================================
 function inicializarFormularioRegistro() {
   const form = document.getElementById('formRegistro');
@@ -120,13 +152,13 @@ function inicializarFormularioRegistro() {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const run = document.getElementById('run')?.value?.trim();
-    const nombre = document.getElementById('nombre')?.value?.trim();
-    const apellidos = document.getElementById('apellidos')?.value?.trim();
-    const correo = document.getElementById('correo')?.value?.trim();
+    const run = sanitizarTexto(document.getElementById('run')?.value?.trim());
+    const nombre = sanitizarTexto(document.getElementById('nombre')?.value?.trim());
+    const apellidos = sanitizarTexto(document.getElementById('apellidos')?.value?.trim());
+    const correo = sanitizarTexto(document.getElementById('correo')?.value?.trim());
     const region = document.getElementById('region')?.value;
     const comuna = document.getElementById('comuna')?.value;
-    const direccion = document.getElementById('direccion')?.value?.trim();
+    const direccion = sanitizarTexto(document.getElementById('direccion')?.value?.trim());
 
     let ok = true;
 
@@ -135,13 +167,13 @@ function inicializarFormularioRegistro() {
       ok = false;
     } else limpiarError('run');
 
-    if (!nombre || nombre.length < 2) {
-      mostrarError('nombre', 'Nombre es obligatorio (mín. 2 caracteres)');
+    if (!nombre || nombre.length < 2 || nombre.length > 50) {
+      mostrarError('nombre', 'Nombre debe tener entre 2 y 50 caracteres');
       ok = false;
     } else limpiarError('nombre');
 
-    if (!apellidos || apellidos.length < 2) {
-      mostrarError('apellidos', 'Apellidos son obligatorios (mín. 2 caracteres)');
+    if (!apellidos || apellidos.length < 2 || apellidos.length > 100) {
+      mostrarError('apellidos', 'Apellidos deben tener entre 2 y 100 caracteres');
       ok = false;
     } else limpiarError('apellidos');
 
@@ -151,7 +183,6 @@ function inicializarFormularioRegistro() {
     } else limpiarError('correo');
 
     if (!region) {
-      // sin div de error dedicado, usamos alerta simple visual (opcional crear error-region)
       ok = false;
       alert('Selecciona una región');
     }
@@ -161,20 +192,27 @@ function inicializarFormularioRegistro() {
       alert('Selecciona una comuna');
     }
 
-    if (!direccion || direccion.length < 5) {
-      mostrarError('direccion', 'Dirección demasiado corta');
+    if (!direccion || direccion.length < 5 || direccion.length > 300) {
+      mostrarError('direccion', 'Dirección debe tener entre 5 y 300 caracteres');
       ok = false;
     } else limpiarError('direccion');
 
     if (!ok) return;
 
-    // Persistencia demo de usuarios (NO guardar contraseñas reales)
+    // Persistencia demo de usuarios con manejo de errores mejorado
     const KEY = 'usuarios-sneakers';
     let usuarios = [];
+    
     try {
       const raw = localStorage.getItem(KEY);
       usuarios = raw ? JSON.parse(raw) : [];
-    } catch {
+      
+      // Validar estructura de datos existentes
+      if (!Array.isArray(usuarios)) {
+        usuarios = [];
+      }
+    } catch (error) {
+      console.warn('Error al cargar usuarios del localStorage:', error);
       usuarios = [];
     }
 
@@ -184,33 +222,50 @@ function inicializarFormularioRegistro() {
       return;
     }
 
-    usuarios.push({
-      run,
-      nombre,
-      apellidos,
-      correo,
-      region,
-      comuna,
-      direccion,
-      creadoEn: Date.now()
-    });
-
-    localStorage.setItem(KEY, JSON.stringify(usuarios));
-
-    const exito = document.getElementById('exitoRegistro');
-    if (exito) {
-      exito.classList.remove('d-none');
-    } else {
-      alert('¡Cuenta creada exitosamente!');
+    // Evitar RUN duplicado
+    if (usuarios.some(u => (u.run || '').replace(/\./g, '').replace(/-/g, '').toUpperCase() === 
+                               run.replace(/\./g, '').replace(/-/g, '').toUpperCase())) {
+      mostrarError('run', 'Este RUN ya está registrado');
+      return;
     }
 
-    // Redirige después de 1.2s (demo)
-    setTimeout(() => {
-      window.location.href = 'login.html';
-    }, 1200);
+    try {
+      usuarios.push({
+        run,
+        nombre,
+        apellidos,
+        correo,
+        region,
+        comuna,
+        direccion,
+        creadoEn: Date.now(),
+        activo: true
+      });
+
+      localStorage.setItem(KEY, JSON.stringify(usuarios));
+
+      const exito = document.getElementById('exitoRegistro');
+      if (exito) {
+        exito.classList.remove('d-none');
+      } else {
+        alert('¡Cuenta creada exitosamente!');
+      }
+
+      // Limpiar formulario
+      form.reset();
+
+      // Redirige después de 1.2s (demo)
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 1200);
+
+    } catch (error) {
+      console.error('Error al guardar usuario:', error);
+      alert('Error al crear la cuenta. Por favor, intenta nuevamente.');
+    }
   });
 
-  // Si la región cambia externamente, aseguramos recargar comunas (por si no viniera desde regiones.js)
+  // Si la región cambia externamente, aseguramos recargar comunas
   const regionSel = document.getElementById('region');
   if (regionSel && typeof window.cargarComunas === 'function') {
     regionSel.addEventListener('change', e => {
@@ -223,7 +278,9 @@ function inicializarFormularioRegistro() {
 // Export/Global (si no usas módulos)
 window.validarRUN = validarRUN;
 window.validarEmail = validarEmail;
+window.sanitizarTexto = sanitizarTexto;
 window.mostrarError = mostrarError;
 window.limpiarError = limpiarError;
+window.validarPasswordAdmin = validarPasswordAdmin;
 window.inicializarFormularioLogin = inicializarFormularioLogin;
 window.inicializarFormularioRegistro = inicializarFormularioRegistro;

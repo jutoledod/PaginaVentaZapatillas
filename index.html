@@ -3,40 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SneakerStore - Inicio</title>
+    <title>SneakerStore - Las mejores zapatillas Nike, Adidas, Puma y New Balance</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="SneakerStore - Tu tienda online de zapatillas deportivas. Las mejores marcas: Nike, Adidas, Puma, New Balance. Envío gratis, garantía y los mejores precios.">
+    <meta name="keywords" content="zapatillas, sneakers, Nike, Adidas, Puma, New Balance, running, basketball, casual, deportivas">
+    <meta name="author" content="SneakerStore">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sneakerstore.cl">
+    <meta property="og:title" content="SneakerStore - Las mejores zapatillas deportivas">
+    <meta property="og:description" content="Descubre las últimas tendencias en zapatillas deportivas. Nike, Adidas, Puma y más.">
+    
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👟</text></svg>">
 </head>
 <body>
-    <!-- Navegación -->
+    <!-- Navegación completa y consistente -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.html">
                 <i class="fas fa-running"></i> SneakerStore
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html">Inicio</a>
+                        <a class="nav-link active" href="index.html" aria-current="page">
+                            <i class="fas fa-home d-lg-none"></i> Inicio
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="productos.html">Zapatillas</a>
+                        <a class="nav-link" href="productos.html">
+                            <i class="fas fa-shoe-prints d-lg-none"></i> Zapatillas
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="blogs.html">Blog</a>
+                        <a class="nav-link" href="blogs.html">
+                            <i class="fas fa-blog d-lg-none"></i> Blog
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="nosotros.html">Nosotros</a>
+                        <a class="nav-link" href="nosotros.html">
+                            <i class="fas fa-users d-lg-none"></i> Nosotros
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contacto.html">Contacto</a>
+                        <a class="nav-link" href="contacto.html">
+                            <i class="fas fa-envelope d-lg-none"></i> Contacto
+                        </a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -46,13 +71,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link carrito-btn" href="carrito.html">
-                            <i class="fas fa-shopping-cart"></i> (<span id="contador">0</span>)
+                        <a class="nav-link carrito-btn" href="carrito.html" title="Ver carrito de compras">
+                            <i class="fas fa-shopping-cart"></i> (<span id="contador" aria-label="Productos en carrito">0</span>)
                         </a>
                     </li>
-                    <!-- ADMIN LINK OCULTO - Solo aparece después de login admin -->
+                    <!-- ADMIN LINK - Solo aparece después de login admin -->
                     <li class="nav-item admin-link">
-                        <a class="nav-link" href="admin/home.html">
+                        <a class="nav-link" href="admin/home.html" title="Panel administrativo">
                             <i class="fas fa-cog"></i> Admin
                         </a>
                     </li>
@@ -61,64 +86,719 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="hero-nike">
+    <!-- Hero Section mejorado -->
+    <header class="hero-nike" role="banner">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row align-items-center min-vh-100">
                 <div class="col-lg-6">
                     <div class="hero-content">
-                        <h1>Just Do It</h1>
-                        <p>Encuentra las zapatillas perfectas para tu estilo</p>
-                        <a href="productos.html" class="btn-nike">
-                            Explorar Zapatillas
-                        </a>
+                        <h1 class="display-3 fw-bold mb-4">Just Do It</h1>
+                        <p class="lead mb-4">Encuentra las zapatillas perfectas para tu estilo de vida activo. Las mejores marcas, la mejor calidad.</p>
+                        <div class="d-flex flex-column flex-sm-row gap-3">
+                            <a href="productos.html" class="btn-nike">
+                                <i class="fas fa-arrow-right"></i> Explorar Zapatillas
+                            </a>
+                            <a href="blogs.html" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-blog"></i> Ver Blog
+                            </a>
+                        </div>
+                        
+                        <!-- Estadísticas rápidas -->
+                        <div class="row mt-5 pt-4">
+                            <div class="col-4">
+                                <div class="text-center">
+                                    <h3 class="fw-bold mb-1" id="total-productos">0</h3>
+                                    <small class="text-muted">Productos</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-center">
+                                    <h3 class="fw-bold mb-1">4</h3>
+                                    <small class="text-muted">Marcas Top</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-center">
+                                    <h3 class="fw-bold mb-1">24/7</h3>
+                                    <small class="text-muted">Soporte</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <div style="font-size: 10rem;">👟</div>
+                    <div class="hero-product-showcase">
+                        <div class="product-float">👟</div>
+                        <div class="floating-elements">
+                            <div class="float-element" style="--delay: 0s;">✨</div>
+                            <div class="float-element" style="--delay: 1s;">⭐</div>
+                            <div class="float-element" style="--delay: 2s;">🏃‍♂️</div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            
+            <!-- Scroll indicator -->
+            <div class="scroll-indicator">
+                <a href="#destacados" class="text-white">
+                    <i class="fas fa-chevron-down animate-bounce"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Loading indicator para productos -->
+    <div class="loading-section d-none" id="loading-destacados">
+        <div class="container py-5">
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando productos destacados...</span>
+                </div>
+                <p class="mt-3 text-muted">Cargando productos destacados...</p>
             </div>
         </div>
     </div>
     
     <!-- Productos Destacados -->
-    <div class="container py-5">
-        <h2 class="text-center mb-5" style="font-weight: 700;">DESTACADOS</h2>
-        <div class="row" id="destacados-container">
-            <!-- Se carga con JavaScript -->
-        </div>
-        <div class="text-center mt-4">
-            <a href="productos.html" class="btn-nike">Ver Todas las Zapatillas</a>
-        </div>
-    </div>
+    <section id="destacados" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">PRODUCTOS DESTACADOS</h2>
+                <p class="lead text-muted">Descubre nuestras zapatillas más populares</p>
+                <div class="underline-accent mx-auto"></div>
+            </div>
+            
+            <!-- Filtros rápidos -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-8">
+                    <div class="d-flex flex-wrap justify-content-center gap-2" role="group" aria-label="Filtros de categoría">
+                        <button class="btn btn-outline-dark btn-sm filter-btn active" onclick="filtrarDestacados('')" data-filter="">
+                            Todos
+                        </button>
+                        <button class="btn btn-outline-dark btn-sm filter-btn" onclick="filtrarDestacados('running')" data-filter="running">
+                            <i class="fas fa-running"></i> Running
+                        </button>
+                        <button class="btn btn-outline-dark btn-sm filter-btn" onclick="filtrarDestacados('casual')" data-filter="casual">
+                            <i class="fas fa-walking"></i> Casual
+                        </button>
+                        <button class="btn btn-outline-dark btn-sm filter-btn" onclick="filtrarDestacados('basketball')" data-filter="basketball">
+                            <i class="fas fa-basketball-ball"></i> Basketball
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4">
+            <div class="row" id="destacados-container">
+                <!-- Se carga con JavaScript -->
+            </div>
+            
+            <!-- Mensaje cuando no hay productos -->
+            <div class="alert alert-info text-center d-none" id="no-destacados">
+                <i class="fas fa-info-circle fa-2x mb-3"></i>
+                <h4>No hay productos en esta categoría</h4>
+                <p>Prueba con otro filtro o explora todos nuestros productos.</p>
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="productos.html" class="btn-nike btn-lg">
+                    <i class="fas fa-eye"></i> Ver Todas las Zapatillas
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de características -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-card h-100">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-shipping-fast fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="fw-bold">Envío Gratis</h5>
+                        <p class="text-muted">En compras sobre $50.000 a todo Chile</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-card h-100">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-undo fa-3x text-success"></i>
+                        </div>
+                        <h5 class="fw-bold">Cambios Fáciles</h5>
+                        <p class="text-muted">30 días para cambios y devoluciones</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-card h-100">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-shield-alt fa-3x text-warning"></i>
+                        </div>
+                        <h5 class="fw-bold">Garantía</h5>
+                        <p class="text-muted">Productos originales con garantía</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-card h-100">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-headset fa-3x text-info"></i>
+                        </div>
+                        <h5 class="fw-bold">Soporte 24/7</h5>
+                        <p class="text-muted">Atención al cliente siempre disponible</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-5 bg-dark text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h3 class="fw-bold mb-3">¡No te pierdas las novedades!</h3>
+                    <p class="lead mb-0">Suscríbete y recibe ofertas exclusivas, lanzamientos y tips de estilo.</p>
+                </div>
+                <div class="col-lg-6">
+                    <form class="newsletter-form" id="newsletter-form" novalidate>
+                        <div class="input-group input-group-lg">
+                            <input type="email" class="form-control" placeholder="Tu correo electrónico" 
+                                   aria-label="Correo electrónico" required id="newsletter-email">
+                            <button class="btn btn-warning fw-bold" type="submit">
+                                <i class="fas fa-paper-plane"></i> Suscribirse
+                            </button>
+                        </div>
+                        <small class="text-muted mt-2 d-block">
+                            <i class="fas fa-lock"></i> No compartimos tu información
+                        </small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer mejorado -->
+    <footer class="bg-dark text-white py-5" role="contentinfo">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-running"></i> SneakerStore</h5>
-                    <p>Tu tienda de zapatillas de confianza</p>
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">
+                        <i class="fas fa-running"></i> SneakerStore
+                    </h5>
+                    <p class="text-muted">Tu tienda de zapatillas de confianza. Las mejores marcas, los mejores precios, la mejor atención.</p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3" aria-label="Facebook">
+                            <i class="fab fa-facebook-f fa-lg"></i>
+                        </a>
+                        <a href="#" class="text-white me-3" aria-label="Instagram">
+                            <i class="fab fa-instagram fa-lg"></i>
+                        </a>
+                        <a href="#" class="text-white me-3" aria-label="Twitter">
+                            <i class="fab fa-twitter fa-lg"></i>
+                        </a>
+                        <a href="#" class="text-white" aria-label="YouTube">
+                            <i class="fab fa-youtube fa-lg"></i>
+                        </a>
+                    </div>
                 </div>
-                <div class="col-md-6 text-end">
-                    <p>&copy; 2024 SneakerStore - Todos los derechos reservados</p>
+                <div class="col-lg-2 col-md-3 mb-4">
+                    <h6 class="fw-bold mb-3">Productos</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="productos.html?categoria=running" class="text-muted text-decoration-none">Running</a></li>
+                        <li><a href="productos.html?categoria=casual" class="text-muted text-decoration-none">Casual</a></li>
+                        <li><a href="productos.html?categoria=basketball" class="text-muted text-decoration-none">Basketball</a></li>
+                        <li><a href="productos.html" class="text-muted text-decoration-none">Todas</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 mb-4">
+                    <h6 class="fw-bold mb-3">Empresa</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="nosotros.html" class="text-muted text-decoration-none">Nosotros</a></li>
+                        <li><a href="blogs.html" class="text-muted text-decoration-none">Blog</a></li>
+                        <li><a href="contacto.html" class="text-muted text-decoration-none">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 mb-4">
+                    <h6 class="fw-bold mb-3">Ayuda</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Envíos</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Cambios</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Tallas</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 mb-4">
+                    <h6 class="fw-bold mb-3">Contacto</h6>
+                    <ul class="list-unstyled text-muted">
+                        <li><i class="fas fa-envelope me-2"></i> info@sneakerstore.cl</li>
+                        <li><i class="fas fa-phone me-2"></i> +56 2 2345 6789</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Santiago, Chile</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0 text-muted">&copy; 2024 SneakerStore - Todos los derechos reservados</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <small class="text-muted">
+                        <a href="#" class="text-decoration-none">Términos</a> |
+                        <a href="#" class="text-decoration-none">Privacidad</a> |
+                        <a href="#" class="text-decoration-none">Cookies</a>
+                    </small>
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- Botón scroll to top -->
+    <button class="btn-scroll-top d-none" id="scroll-top-btn" onclick="scrollToTop()" 
+            aria-label="Volver arriba" title="Volver arriba">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/productos.js"></script>
     <script src="js/carrito.js"></script>
     <script src="js/main.js"></script>
+    
     <script>
-        // Cargar productos destacados al cargar la página
+        // Variables globales
+        let destacadosOriginales = [];
+        let destacadosFiltrados = [];
+
+        // Inicialización mejorada
         document.addEventListener('DOMContentLoaded', function() {
-            cargarCarrito();
-            mostrarDestacados();
-            verificarSesionAdmin(); // Verificar si ya está logueado como admin
+            try {
+                // Mostrar loading
+                mostrarLoadingDestacados(true);
+                
+                // Inicializar funciones básicas
+                if (typeof cargarCarrito === 'function') {
+                    cargarCarrito();
+                }
+                
+                if (typeof verificarSesionAdmin === 'function') {
+                    verificarSesionAdmin();
+                }
+
+                // Cargar productos destacados con delay realista
+                setTimeout(() => {
+                    inicializarDestacados();
+                    mostrarLoadingDestacados(false);
+                }, 500);
+
+                // Inicializar otras funcionalidades
+                inicializarScrollTop();
+                inicializarNewsletter();
+                inicializarAnimaciones();
+                actualizarEstadisticas();
+
+            } catch (error) {
+                console.error('Error en inicialización:', error);
+                mostrarError('Error al cargar la página');
+                mostrarLoadingDestacados(false);
+            }
+        });
+
+        // Cargar y mostrar destacados
+        function inicializarDestacados() {
+            try {
+                if (typeof productos === 'undefined' || !Array.isArray(productos)) {
+                    throw new Error('Productos no disponibles');
+                }
+
+                destacadosOriginales = productos.filter(p => p.destacado === true);
+                destacadosFiltrados = [...destacadosOriginales];
+                
+                mostrarDestacados();
+
+            } catch (error) {
+                console.error('Error cargando destacados:', error);
+                mostrarErrorDestacados();
+            }
+        }
+
+        // Mostrar/ocultar loading
+        function mostrarLoadingDestacados(mostrar) {
+            const loading = document.getElementById('loading-destacados');
+            const container = document.getElementById('destacados-container');
+            
+            if (loading) {
+                loading.classList.toggle('d-none', !mostrar);
+            }
+            if (container) {
+                container.style.opacity = mostrar ? '0.3' : '1';
+            }
+        }
+
+        // Filtrar destacados por categoría
+        function filtrarDestacados(categoria) {
+            try {
+                // Actualizar botones
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`[data-filter="${categoria}"]`).classList.add('active');
+
+                // Filtrar productos
+                if (categoria === '') {
+                    destacadosFiltrados = [...destacadosOriginales];
+                } else {
+                    destacadosFiltrados = destacadosOriginales.filter(p => p.categoria === categoria);
+                }
+
+                mostrarDestacados();
+
+            } catch (error) {
+                console.error('Error al filtrar destacados:', error);
+            }
+        }
+
+        // Mostrar destacados (reutiliza función original con mejoras)
+        function mostrarDestacados() {
+            const contenedor = document.getElementById('destacados-container');
+            const noDestacados = document.getElementById('no-destacados');
+            
+            if (!contenedor) return;
+
+            try {
+                if (destacadosFiltrados.length === 0) {
+                    contenedor.innerHTML = '';
+                    noDestacados?.classList.remove('d-none');
+                    return;
+                } else {
+                    noDestacados?.classList.add('d-none');
+                }
+
+                contenedor.innerHTML = '';
+                
+                destacadosFiltrados.forEach((producto, index) => {
+                    const stockBadge = (producto.stock || 0) <= (producto.stockCritico || 0) ? 
+                        '<span class="badge bg-danger position-absolute top-0 start-0 m-2">¡Últimas!</span>' : '';
+                    
+                    const precioFormateado = (typeof formatearPrecio === 'function') ? 
+                        formatearPrecio(producto.precio) : `$${producto.precio}`;
+                    
+                    const marcaColor = (typeof getMarcaColor === 'function') ? 
+                        getMarcaColor(producto.marca) : 'bg-secondary';
+
+                    contenedor.innerHTML += `
+                        <div class="col-lg-3 col-md-6 mb-4" style="animation-delay: ${index * 0.1}s">
+                            <div class="zapatilla-card h-100 position-relative" onclick="window.location.href='detalle-producto.html?id=${producto.id}'">
+                                ${stockBadge}
+                                <div class="zapatilla-imagen position-relative">
+                                    👟
+                                    <div class="overlay-hover position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                                        <span class="text-white fw-bold">Ver Detalles</span>
+                                    </div>
+                                </div>
+                                <div class="p-3">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="fw-semibold text-dark mb-0">${producto.nombre}</h5>
+                                        <span class="badge ${marcaColor} marca-badge">${(producto.marca || '').toUpperCase()}</span>
+                                    </div>
+                                    <p class="text-muted small mb-3">${(producto.descripcion || '').substring(0, 70)}...</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="precio-nike">${precioFormateado}</div>
+                                        <small class="text-success">
+                                            <i class="fas fa-check-circle"></i> Disponible
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="p-3 pt-0">
+                                    <button class="btn-nike w-100" onclick="event.stopPropagation(); mostrarModalAgregar(${producto.id})">
+                                        <i class="fas fa-cart-plus"></i> Agregar al Carrito
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+            } catch (error) {
+                console.error('Error al mostrar destacados:', error);
+                mostrarErrorDestacados();
+            }
+        }
+
+        // Mostrar error en destacados
+        function mostrarErrorDestacados() {
+            const contenedor = document.getElementById('destacados-container');
+            if (contenedor) {
+                contenedor.innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-warning text-center py-4">
+                            <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                            <h4>No se pudieron cargar los productos</h4>
+                            <p>Intenta recargar la página o contacta soporte si el problema persiste.</p>
+                            <button class="btn btn-primary" onclick="location.reload()">
+                                <i class="fas fa-refresh"></i> Recargar página
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Newsletter
+        function inicializarNewsletter() {
+            const form = document.getElementById('newsletter-form');
+            if (!form) return;
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('newsletter-email').value.trim();
+                
+                if (!email) {
+                    alert('Por favor ingresa tu correo electrónico');
+                    return;
+                }
+
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    alert('Por favor ingresa un correo electrónico válido');
+                    return;
+                }
+
+                // Simulación de suscripción
+                alert('¡Gracias por suscribirte! Te mantendremos al día con las últimas novedades.');
+                form.reset();
+            });
+        }
+
+        // Scroll to top
+        function inicializarScrollTop() {
+            const btn = document.getElementById('scroll-top-btn');
+            if (!btn) return;
+
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    btn.classList.remove('d-none');
+                } else {
+                    btn.classList.add('d-none');
+                }
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Animaciones de entrada
+        function inicializarAnimaciones() {
+            // Intersection Observer para animaciones on scroll
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-in');
+                        }
+                    });
+                });
+
+                // Observar elementos que queremos animar
+                document.querySelectorAll('.feature-card, .zapatilla-card').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+        }
+
+        // Actualizar estadísticas
+        function actualizarEstadisticas() {
+            try {
+                const totalProductos = document.getElementById('total-productos');
+                if (totalProductos && typeof productos !== 'undefined' && Array.isArray(productos)) {
+                    // Animación de contador
+                    animarContador(totalProductos, productos.length, 1000);
+                }
+            } catch (error) {
+                console.error('Error actualizando estadísticas:', error);
+            }
+        }
+
+        // Animación de contador
+        function animarContador(elemento, valorFinal, duracion) {
+            let valorInicial = 0;
+            const incremento = valorFinal / (duracion / 16); // 60 FPS
+            
+            function animar() {
+                valorInicial += incremento;
+                if (valorInicial < valorFinal) {
+                    elemento.textContent = Math.floor(valorInicial);
+                    requestAnimationFrame(animar);
+                } else {
+                    elemento.textContent = valorFinal;
+                }
+            }
+            
+            animar();
+        }
+
+        // Función de error genérica
+        function mostrarError(mensaje) {
+            console.error('Error:', mensaje);
+        }
+
+        // Smooth scrolling para enlaces internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
     </script>
+
+    <style>
+        /* Estilos específicos para index */
+        .hero-nike {
+            padding-top: 76px; /* Compensar navbar fixed */
+        }
+
+        .product-float {
+            font-size: 15rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .float-element {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatAround 4s ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        .float-element:nth-child(1) { top: 20%; left: 20%; }
+        .float-element:nth-child(2) { top: 60%; right: 20%; }
+        .float-element:nth-child(3) { bottom: 30%; left: 30%; }
+
+        @keyframes floatAround {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(10px, -10px) rotate(5deg); }
+            50% { transform: translate(-5px, -20px) rotate(-5deg); }
+            75% { transform: translate(-10px, 10px) rotate(3deg); }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .underline-accent {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--negro), var(--naranja));
+            border-radius: 2px;
+        }
+
+        .feature-card {
+            padding: 2rem 1rem;
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .feature-card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .overlay-hover {
+            background: rgba(0,0,0,0.8);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .zapatilla-card:hover .overlay-hover {
+            opacity: 1;
+        }
+
+        .btn-scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background: var(--negro);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-scroll-top:hover {
+            transform: translateY(-3px);
+            background: #333;
+        }
+
+        .social-links a {
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--naranja) !important;
+        }
+
+        .newsletter-form .form-control:focus {
+            border-color: var(--naranja);
+            box-shadow: 0 0 0 0.2rem rgba(255, 105, 0, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem !important;
+            }
+            
+            .product-float {
+                font-size: 8rem;
+            }
+            
+            .floating-elements {
+                display: none;
+            }
+        }
+    </style>
 </body>
 </html>

@@ -5,14 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SneakerStore - Panel Administrativo</title>
 
-  <!-- Guard de admin (demo): si no hay sesión admin, redirige a login -->
+  <!-- Guard de admin mejorado con múltiples verificaciones -->
   <script>
     (function () {
       try {
-        if (localStorage.getItem('esAdmin') !== 'true') {
-          window.location.replace('../login.html');
+        // Verificaciones múltiples de seguridad
+        const verificaciones = {
+          localStorage: false,
+          sessionStorage: false,
+          timestamp: false,
+          userAgent: false
+        };
+
+        // Verificar localStorage
+        try {
+          if (localStorage.getItem('esAdmin') === 'true') {
+            verificaciones.localStorage = true;
+          }
+        } catch (e) {
+          console.warn('localStorage no disponible');
         }
-      } catch (e) {
+
+        // Verificar sessionStorage (sesión temporal)
+        try {
+          if (sessionStorage.getItem('admin-session') === 'active') {
+            verificaciones.sessionStorage = true;
+          }
+        } catch (e) {
+          console.warn('sessionStorage no disponible');
+        }
+
+        // Verificar timestamp de sesión (no más de 8 horas)
+        try {
+          const timestamp = localStorage.getItem('admin-timestamp');
+          if (timestamp) {
+            const tiempoSesion = Date.now() - parseInt(timestamp);
+            const OCHO_HORAS = 8 * 60 * 60 * 1000;
+            if (tiempoSesion < OCHO_HORAS) {
+              verificaciones.timestamp = true;
+            } else {
+              // Sesión expirada, limpiar
+              localStorage.removeItem('esAdmin');
+              localStorage.removeItem('admin-timestamp');
+              sessionStorage.removeItem('admin-session');
+            }
+          }
+        } catch (e) {
+          console.warn('Error verificando timestamp');
+        }
+
+        // Verificar User Agent (básico, fácil de falsificar pero añade una capa)
+        try {
+          const savedUA = localStorage.getItem('admin-ua');
+          const currentUA = navigator.userAgent;
+          if (savedUA === currentUA) {
+            verificaciones.userAgent = true;
+          }
+        } catch (e) {
+          console.warn('Error verificando User Agent');
+        }
+
+        // Evaluar verificaciones - requiere al menos 2 de 4
+        const verificacionesExitosas = Object.values(verificaciones).filter(v => v).length;
+        
+        if (verificacionesExitosas < 2) {
+          // Limpiar datos potencialmente corruptos
+          try {
+            localStorage.removeItem('esAdmin');
+            localStorage.removeItem('admin-timestamp');
+            localStorage.removeItem('admin-ua');
+            sessionStorage.removeItem('admin-session');
+          } catch (e) {}
+          
+          // Redirigir con mensaje
+          alert('Sesión de administrador inválida o expirada. Por favor, inicia sesión nuevamente.');
+          window.location.replace('../login.html');
+          return;
+        }
+
+        // Renovar timestamp de sesión si es válida
+        try {
+          localStorage.setItem('admin-timestamp', Date.now().toString());
+          sessionStorage.setItem('admin-session', 'active');
+        } catch (e) {
+          console.warn('No se pudo renovar sesión');
+        }
+
+      } catch (error) {
+        console.error('Error en guard de admin:', error);
         window.location.replace('../login.html');
       }
     })();
@@ -24,38 +104,103 @@
   <link rel="stylesheet" href="../css/admin.css" />
 </head>
 <body>
-  <!-- Navegación Admin -->
+  <!-- Loading screen -->
+  <div class="loading-screen d-none" id="loading-screen">
+    <div class="text-center">
+      <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"></div>
+      <h5>Cargando panel administrativo...</h5>
+    </div>
+  </div>
+
+  <!-- Navegación Admin mejorada -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="../index.html">
         <i class="fas fa-running"></i> SneakerStore Admin
       </a>
-      <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="../index.html">
-          <i class="fas fa-home"></i> Volver a Tienda
-        </a>
-        <a class="nav-link" href="#" onclick="logout(); return false;">
-          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-        </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navAdmin">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navAdmin">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <span class="navbar-text">
+              <i class="fas fa-user-shield"></i> 
+              Panel Administrativo
+            </span>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <!-- Indicator de sesión -->
+          <li class="nav-item">
+            <span class="navbar-text me-3">
+              <span class="badge bg-success">
+                <i class="fas fa-circle pulse"></i> Online
+              </span>
+            </span>
+          </li>
+          <!-- Timer de sesión -->
+          <li class="nav-item">
+            <span class="navbar-text me-3" id="session-timer">
+              <i class="fas fa-clock"></i> <span id="timer-display">--:--</span>
+            </span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">
+              <i class="fas fa-home"></i> Volver a Tienda
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="confirmarLogout(); return false;">
+              <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Layout Admin -->
+  <!-- Breadcrumb -->
   <div class="container-fluid mt-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active">
+          <i class="fas fa-home"></i> Dashboard
+        </li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- Layout Admin -->
+  <div class="container-fluid">
     <div class="row">
-      <!-- Sidebar -->
+      <!-- Sidebar mejorado -->
       <div class="col-md-3 col-lg-2">
         <div class="admin-sidebar">
           <div class="list-group list-group-flush">
             <a href="home.html" class="list-group-item list-group-item-action active">
               <i class="fas fa-home"></i> Dashboard
+              <span class="badge bg-primary ms-auto">Actual</span>
             </a>
             <a href="lista-productos.html" class="list-group-item list-group-item-action">
               <i class="fas fa-shoe-prints"></i> Productos
+              <span class="badge bg-secondary ms-auto" id="total-productos-sidebar">0</span>
             </a>
             <a href="lista-usuarios.html" class="list-group-item list-group-item-action">
               <i class="fas fa-users"></i> Usuarios
+              <span class="badge bg-info ms-auto">150</span>
+            </a>
+            <!-- Separador -->
+            <div class="sidebar-separator"></div>
+            <!-- Enlaces adicionales -->
+            <a href="#" class="list-group-item list-group-item-action" onclick="mostrarConfiguracion()">
+              <i class="fas fa-cog"></i> Configuración
+            </a>
+            <a href="#" class="list-group-item list-group-item-action" onclick="mostrarReportes()">
+              <i class="fas fa-chart-bar"></i> Reportes
+            </a>
+            <a href="#" class="list-group-item list-group-item-action" onclick="mostrarAyuda()">
+              <i class="fas fa-question-circle"></i> Ayuda
             </a>
           </div>
         </div>
@@ -64,79 +209,279 @@
       <!-- Contenido Principal -->
       <div class="col-md-9 col-lg-10">
         <div class="admin-content">
-          <h1 class="mb-4">Dashboard Administrativo</h1>
+          <!-- Header con información del usuario -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="mb-1">Dashboard Administrativo</h1>
+              <p class="text-muted mb-0">
+                <i class="fas fa-calendar"></i> 
+                <span id="fecha-actual">Cargando...</span>
+              </p>
+            </div>
+            <div class="text-end">
+              <div class="admin-user-info">
+                <small class="text-muted d-block">Último acceso</small>
+                <span id="ultimo-acceso">--:--</span>
+              </div>
+            </div>
+          </div>
 
-          <!-- Estadísticas -->
+          <!-- Alertas del sistema -->
+          <div id="alertas-sistema">
+            <!-- Se cargan dinámicamente -->
+          </div>
+
+          <!-- Estadísticas mejoradas -->
           <div class="row mb-4">
-            <div class="col-md-3">
+            <div class="col-md-3 mb-3">
               <div class="card admin-stat-card bg-primary text-white">
                 <div class="card-body text-center">
-                  <i class="fas fa-shoe-prints fa-2x mb-2"></i>
-                  <h3 id="total-productos">0</h3>
-                  <p>Total Productos</p>
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <i class="fas fa-shoe-prints fa-2x"></i>
+                    <div class="dropdown">
+                      <button class="btn btn-sm text-white" data-bs-toggle="dropdown">
+                        <i class="fas fa-ellipsis-v"></i>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="lista-productos.html">Ver detalles</a></li>
+                        <li><a class="dropdown-item" href="nuevo-producto.html">Agregar producto</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <h3 id="total-productos" data-target="0">0</h3>
+                  <p class="mb-0">Total Productos</p>
+                  <small class="opacity-75">
+                    <i class="fas fa-arrow-up"></i> 
+                    <span id="productos-cambio">+0%</span> vs mes anterior
+                  </small>
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            
+            <div class="col-md-3 mb-3">
               <div class="card admin-stat-card bg-success text-white">
                 <div class="card-body text-center">
-                  <i class="fas fa-users fa-2x mb-2"></i>
-                  <h3>150</h3>
-                  <p>Usuarios Registrados</p>
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <i class="fas fa-users fa-2x"></i>
+                    <div class="dropdown">
+                      <button class="btn btn-sm text-white" data-bs-toggle="dropdown">
+                        <i class="fas fa-ellipsis-v"></i>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="lista-usuarios.html">Ver usuarios</a></li>
+                        <li><a class="dropdown-item" href="nuevo-usuario.html">Agregar usuario</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <h3 data-target="150">0</h3>
+                  <p class="mb-0">Usuarios Registrados</p>
+                  <small class="opacity-75">
+                    <i class="fas fa-arrow-up"></i> +12% vs mes anterior
+                  </small>
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            
+            <div class="col-md-3 mb-3">
               <div class="card admin-stat-card bg-warning text-dark">
                 <div class="card-body text-center">
-                  <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
-                  <h3 id="stock-critico">0</h3>
-                  <p>Stock Crítico</p>
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <i class="fas fa-exclamation-triangle fa-2x"></i>
+                    <div class="dropdown">
+                      <button class="btn btn-sm text-dark" data-bs-toggle="dropdown">
+                        <i class="fas fa-ellipsis-v"></i>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="lista-productos.html?filter=critico">Ver productos</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="generarReporteStock()">Generar reporte</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <h3 id="stock-critico" data-target="0">0</h3>
+                  <p class="mb-0">Stock Crítico</p>
+                  <small class="opacity-75">
+                    <i class="fas fa-exclamation-circle"></i> Requiere atención
+                  </small>
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            
+            <div class="col-md-3 mb-3">
               <div class="card admin-stat-card bg-info text-white">
                 <div class="card-body text-center">
-                  <i class="fas fa-shopping-cart fa-2x mb-2"></i>
-                  <h3>89</h3>
-                  <p>Ventas del Mes</p>
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <i class="fas fa-shopping-cart fa-2x"></i>
+                    <div class="dropdown">
+                      <button class="btn btn-sm text-white" data-bs-toggle="dropdown">
+                        <i class="fas fa-ellipsis-v"></i>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="mostrarVentasDetalle()">Ver detalles</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="exportarVentas()">Exportar datos</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <h3 data-target="89">0</h3>
+                  <p class="mb-0">Ventas del Mes</p>
+                  <small class="opacity-75">
+                    <i class="fas fa-dollar-sign"></i> $2.450.000 total
+                  </small>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Acciones Rápidas -->
-          <div class="card">
-            <div class="card-header">
-              <h5><i class="fas fa-bolt"></i> Acciones Rápidas</h5>
+          <!-- Gráfico de resumen -->
+          <div class="row mb-4">
+            <div class="col-lg-8">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0">
+                    <i class="fas fa-chart-line"></i> Resumen de Actividad
+                  </h5>
+                </div>
+                <div class="card-body">
+                  <div class="chart-placeholder">
+                    <div class="text-center py-5">
+                      <i class="fas fa-chart-area fa-3x text-muted mb-3"></i>
+                      <h5 class="text-muted">Gráfico de Ventas</h5>
+                      <p class="text-muted">Aquí se mostraría un gráfico de actividad con una librería como Chart.js</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <a href="nuevo-producto.html" class="btn btn-primary w-100">
-                    <i class="fas fa-plus"></i> Agregar Nuevo Producto
-                  </a>
+            
+            <div class="col-lg-4">
+              <div class="card h-100">
+                <div class="card-header">
+                  <h5 class="mb-0">
+                    <i class="fas fa-clock"></i> Actividad Reciente
+                  </h5>
                 </div>
-                <div class="col-md-6 mb-3">
-                  <a href="nuevo-usuario.html" class="btn btn-success w-100">
-                    <i class="fas fa-user-plus"></i> Agregar Nuevo Usuario
-                  </a>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <a href="lista-productos.html" class="btn btn-outline-primary w-100">
-                    <i class="fas fa-list"></i> Ver Todos los Productos
-                  </a>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <a href="lista-usuarios.html" class="btn btn-outline-success w-100">
-                    <i class="fas fa-list"></i> Ver Todos los Usuarios
-                  </a>
+                <div class="card-body">
+                  <div class="activity-feed" id="activity-feed">
+                    <!-- Se carga dinámicamente -->
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <!-- /Acciones Rápidas -->
+
+          <!-- Acciones Rápidas mejoradas -->
+          <div class="card">
+            <div class="card-header">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                  <i class="fas fa-bolt"></i> Acciones Rápidas
+                </h5>
+                <small class="text-muted">Herramientas de gestión</small>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-6 col-lg-3">
+                  <a href="nuevo-producto.html" class="btn btn-primary w-100 btn-lg action-card">
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-plus fa-2x me-3"></i>
+                      <div class="text-start">
+                        <div class="fw-bold">Nuevo Producto</div>
+                        <small class="opacity-75">Agregar zapatilla</small>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                  <a href="nuevo-usuario.html" class="btn btn-success w-100 btn-lg action-card">
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-user-plus fa-2x me-3"></i>
+                      <div class="text-start">
+                        <div class="fw-bold">Nuevo Usuario</div>
+                        <small class="opacity-75">Registrar usuario</small>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                  <button class="btn btn-warning w-100 btn-lg action-card" onclick="verificarInventario()">
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-clipboard-check fa-2x me-3"></i>
+                      <div class="text-start">
+                        <div class="fw-bold">Verificar Stock</div>
+                        <small class="opacity-75">Revisar inventario</small>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                  <button class="btn btn-info w-100 btn-lg action-card" onclick="generarReporte()">
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-file-alt fa-2x me-3"></i>
+                      <div class="text-start">
+                        <div class="fw-bold">Generar Reporte</div>
+                        <small class="opacity-75">Exportar datos</small>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Enlaces adicionales -->
+              <div class="row mt-4">
+                <div class="col-12">
+                  <div class="d-flex flex-wrap gap-2 justify-content-center">
+                    <a href="lista-productos.html" class="btn btn-outline-primary btn-sm">
+                      <i class="fas fa-list"></i> Ver Todos los Productos
+                    </a>
+                    <a href="lista-usuarios.html" class="btn btn-outline-success btn-sm">
+                      <i class="fas fa-list"></i> Ver Todos los Usuarios
+                    </a>
+                    <button class="btn btn-outline-warning btn-sm" onclick="respaldarDatos()">
+                      <i class="fas fa-download"></i> Respaldar Datos
+                    </button>
+                    <button class="btn btn-outline-info btn-sm" onclick="mostrarConfiguracion()">
+                      <i class="fas fa-cog"></i> Configuración
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación de logout -->
+  <div class="modal fade" id="modalLogout" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title">
+            <i class="fas fa-sign-out-alt text-warning"></i>
+            Cerrar Sesión
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>¿Estás seguro de que deseas cerrar la sesión de administrador?</p>
+          <div class="alert alert-info">
+            <small>
+              <i class="fas fa-info-circle"></i>
+              Se mantendrán los datos del carrito de la tienda.
+            </small>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Cancelar
+          </button>
+          <button type="button" class="btn btn-warning" onclick="ejecutarLogout()">
+            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+          </button>
         </div>
       </div>
     </div>
@@ -146,18 +491,490 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../js/productos.js"></script>
   <script src="../js/main.js"></script>
+  
   <script>
-    // Cargar estadísticas
+    // Variables globales
+    let sessionTimer = null;
+    let activityFeed = [];
+    
+    // Inicialización del dashboard
     document.addEventListener('DOMContentLoaded', function () {
-      // Total productos
-      const total = Array.isArray(window.productos) ? window.productos.length : 0;
-      document.getElementById('total-productos').textContent = total;
-
-      // Productos con stock crítico
-      const stockCritico = (Array.isArray(window.productos) ? window.productos : [])
-        .filter(p => (p.stock || 0) <= (p.stockCritico || 0)).length;
-      document.getElementById('stock-critico').textContent = stockCritico;
+      try {
+        inicializarDashboard();
+      } catch (error) {
+        console.error('Error inicializando dashboard:', error);
+        mostrarError('Error al cargar el dashboard');
+      }
     });
+
+    // Función principal de inicialización
+    function inicializarDashboard() {
+      // Mostrar loading
+      mostrarLoading(true);
+      
+      // Inicializar componentes
+      setTimeout(() => {
+        cargarEstadisticas();
+        inicializarTimer();
+        cargarFechaActual();
+        cargarUltimoAcceso();
+        generarActividadReciente();
+        verificarAlertas();
+        inicializarEventosSeguridad();
+        
+        mostrarLoading(false);
+      }, 800);
+    }
+
+    // Cargar estadísticas con animación
+    function cargarEstadisticas() {
+      try {
+        // Total productos
+        const totalProductos = Array.isArray(window.productos) ? window.productos.length : 0;
+        animarContador('total-productos', totalProductos);
+        
+        // Actualizar sidebar
+        const sidebarProductos = document.getElementById('total-productos-sidebar');
+        if (sidebarProductos) sidebarProductos.textContent = totalProductos;
+
+        // Productos con stock crítico
+        const stockCritico = (Array.isArray(window.productos) ? window.productos : [])
+          .filter(p => (p.stock || 0) <= (p.stockCritico || 0)).length;
+        animarContador('stock-critico', stockCritico);
+
+        // Otras estadísticas (simuladas)
+        animarContador('[data-target="150"]', 150);
+        animarContador('[data-target="89"]', 89);
+
+        // Calcular cambio porcentual (simulado)
+        const cambioProductos = Math.floor(Math.random() * 20) - 5; // -5% a +15%
+        const elemento = document.getElementById('productos-cambio');
+        if (elemento) {
+          elemento.textContent = `${cambioProductos >= 0 ? '+' : ''}${cambioProductos}%`;
+          elemento.className = cambioProductos >= 0 ? 'text-success' : 'text-danger';
+        }
+
+      } catch (error) {
+        console.error('Error cargando estadísticas:', error);
+      }
+    }
+
+    // Animación de contadores
+    function animarContador(selector, valorFinal, duracion = 1500) {
+      const elemento = typeof selector === 'string' ? 
+        (selector.startsWith('[') ? document.querySelector(selector) : document.getElementById(selector)) : 
+        selector;
+        
+      if (!elemento) return;
+
+      let valorInicial = 0;
+      const incremento = valorFinal / (duracion / 16);
+      
+      function animar() {
+        valorInicial += incremento;
+        if (valorInicial < valorFinal) {
+          elemento.textContent = Math.floor(valorInicial);
+          requestAnimationFrame(animar);
+        } else {
+          elemento.textContent = valorFinal;
+        }
+      }
+      
+      // Delay escalonado para efecto visual
+      setTimeout(animar, Math.random() * 500);
+    }
+
+    // Timer de sesión
+    function inicializarTimer() {
+      try {
+        const inicioSesion = localStorage.getItem('admin-timestamp');
+        if (!inicioSesion) return;
+
+        function actualizarTimer() {
+          const ahora = Date.now();
+          const tiempoTranscurrido = ahora - parseInt(inicioSesion);
+          const minutos = Math.floor(tiempoTranscurrido / (1000 * 60));
+          const segundos = Math.floor((tiempoTranscurrido % (1000 * 60)) / 1000);
+          
+          const display = document.getElementById('timer-display');
+          if (display) {
+            display.textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+          }
+
+          // Auto-logout después de 8 horas
+          const OCHO_HORAS = 8 * 60 * 60 * 1000;
+          if (tiempoTranscurrido > OCHO_HORAS) {
+            alert('Sesión expirada por seguridad. Serás redirigido al login.');
+            ejecutarLogout();
+            return;
+          }
+        }
+
+        // Actualizar cada segundo
+        sessionTimer = setInterval(actualizarTimer, 1000);
+        actualizarTimer();
+
+      } catch (error) {
+        console.error('Error inicializando timer:', error);
+      }
+    }
+
+    // Cargar fecha actual
+    function cargarFechaActual() {
+      const elemento = document.getElementById('fecha-actual');
+      if (elemento) {
+        const ahora = new Date();
+        const opciones = { 
+          weekday: 'long', 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        };
+        elemento.textContent = ahora.toLocaleDateString('es-ES', opciones);
+      }
+    }
+
+    // Cargar último acceso
+    function cargarUltimoAcceso() {
+      const elemento = document.getElementById('ultimo-acceso');
+      if (elemento) {
+        try {
+          const timestamp = localStorage.getItem('admin-timestamp');
+          if (timestamp) {
+            const fecha = new Date(parseInt(timestamp));
+            elemento.textContent = fecha.toLocaleTimeString('es-ES');
+          }
+        } catch (error) {
+          elemento.textContent = 'N/A';
+        }
+      }
+    }
+
+    // Generar actividad reciente (simulada)
+    function generarActividadReciente() {
+      const actividades = [
+        { icon: 'fas fa-plus text-success', texto: 'Nuevo producto agregado', tiempo: '5 min' },
+        { icon: 'fas fa-edit text-info', texto: 'Producto actualizado', tiempo: '12 min' },
+        { icon: 'fas fa-user text-primary', texto: 'Nuevo usuario registrado', tiempo: '25 min' },
+        { icon: 'fas fa-shopping-cart text-warning', texto: 'Nueva venta procesada', tiempo: '1 h' },
+        { icon: 'fas fa-exclamation-triangle text-danger', texto: 'Stock crítico detectado', tiempo: '2 h' }
+      ];
+
+      const contenedor = document.getElementById('activity-feed');
+      if (contenedor) {
+        contenedor.innerHTML = actividades.map(act => `
+          <div class="activity-item d-flex align-items-center mb-3">
+            <div class="activity-icon me-3">
+              <i class="${act.icon}"></i>
+            </div>
+            <div class="activity-content flex-grow-1">
+              <div class="activity-text">${act.texto}</div>
+              <small class="text-muted">hace ${act.tiempo}</small>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Verificar alertas del sistema
+    function verificarAlertas() {
+      const alertas = [];
+      
+      try {
+        // Verificar stock crítico
+        if (Array.isArray(window.productos)) {
+          const stockCritico = window.productos.filter(p => 
+            (p.stock || 0) <= (p.stockCritico || 0) && (p.stock || 0) > 0
+          );
+          
+          if (stockCritico.length > 0) {
+            alertas.push({
+              tipo: 'warning',
+              icono: 'fas fa-exclamation-triangle',
+              titulo: 'Stock Crítico',
+              mensaje: `${stockCritico.length} productos requieren reposición.`,
+              accion: 'lista-productos.html?filter=critico'
+            });
+          }
+
+          // Verificar productos agotados
+          const agotados = window.productos.filter(p => (p.stock || 0) <= 0);
+          if (agotados.length > 0) {
+            alertas.push({
+              tipo: 'danger',
+              icono: 'fas fa-times-circle',
+              titulo: 'Productos Agotados',
+              mensaje: `${agotados.length} productos sin stock disponible.`,
+              accion: 'lista-productos.html?filter=agotado'
+            });
+          }
+        }
+
+        // Verificar sesión próxima a expirar
+        const timestamp = localStorage.getItem('admin-timestamp');
+        if (timestamp) {
+          const tiempoSesion = Date.now() - parseInt(timestamp);
+          const SIETE_HORAS = 7 * 60 * 60 * 1000;
+          if (tiempoSesion > SIETE_HORAS) {
+            alertas.push({
+              tipo: 'info',
+              icono: 'fas fa-clock',
+              titulo: 'Sesión Próxima a Expirar',
+              mensaje: 'Tu sesión expirará en menos de 1 hora.',
+              accion: null
+            });
+          }
+        }
+
+      } catch (error) {
+        console.error('Error verificando alertas:', error);
+      }
+
+      // Mostrar alertas
+      mostrarAlertas(alertas);
+    }
+
+    // Mostrar alertas en la UI
+    function mostrarAlertas(alertas) {
+      const contenedor = document.getElementById('alertas-sistema');
+      if (!contenedor || !alertas.length) return;
+
+      contenedor.innerHTML = alertas.map(alerta => `
+        <div class="alert alert-${alerta.tipo} alert-dismissible fade show" role="alert">
+          <div class="d-flex align-items-center">
+            <i class="${alerta.icono} fa-lg me-3"></i>
+            <div class="flex-grow-1">
+              <strong>${alerta.titulo}</strong>
+              <div>${alerta.mensaje}</div>
+            </div>
+            ${alerta.accion ? `
+              <a href="${alerta.accion}" class="btn btn-sm btn-outline-${alerta.tipo} me-2">
+                Ver detalles
+              </a>
+            ` : ''}
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      `).join('');
+    }
+
+    // Eventos de seguridad
+    function inicializarEventosSeguridad() {
+      // Detectar intentos de manipulación de localStorage
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'esAdmin' && e.newValue !== 'true') {
+          alert('Sesión comprometida. Cerrando por seguridad.');
+          window.location.href = '../login.html';
+        }
+      });
+
+      // Detectar inactividad (opcional)
+      let tiempoInactividad = 0;
+      const LIMITE_INACTIVIDAD = 30 * 60 * 1000; // 30 minutos
+
+      function resetearInactividad() {
+        tiempoInactividad = 0;
+      }
+
+      ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(event => {
+        document.addEventListener(event, resetearInactividad, true);
+      });
+
+      setInterval(() => {
+        tiempoInactividad += 60000; // 1 minuto
+        if (tiempoInactividad >= LIMITE_INACTIVIDAD) {
+          alert('Sesión cerrada por inactividad.');
+          ejecutarLogout();
+        }
+      }, 60000);
+    }
+
+    // Funciones de acciones rápidas
+    function verificarInventario() {
+      alert('Iniciando verificación de inventario...\n(Funcionalidad demo)');
+    }
+
+    function generarReporte() {
+      alert('Generando reporte del sistema...\n(Funcionalidad demo)');
+    }
+
+    function respaldarDatos() {
+      if (confirm('¿Deseas crear un respaldo de los datos del sistema?')) {
+        alert('Respaldo creado exitosamente.\n(Funcionalidad demo)');
+      }
+    }
+
+    function mostrarConfiguracion() {
+      alert('Panel de configuración.\n(Funcionalidad demo)');
+    }
+
+    function mostrarReportes() {
+      alert('Módulo de reportes.\n(Funcionalidad demo)');
+    }
+
+    function mostrarAyuda() {
+      alert('Centro de ayuda para administradores.\n(Funcionalidad demo)');
+    }
+
+    // Sistema de logout mejorado
+    function confirmarLogout() {
+      const modal = new bootstrap.Modal(document.getElementById('modalLogout'));
+      modal.show();
+    }
+
+    function ejecutarLogout() {
+      try {
+        // Limpiar timer
+        if (sessionTimer) {
+          clearInterval(sessionTimer);
+        }
+
+        // Ejecutar logout del main.js si está disponible
+        if (typeof window.logout === 'function') {
+          window.logout();
+        } else {
+          // Fallback manual
+          limpiarSesionAdmin();
+          window.location.href = '../login.html';
+        }
+      } catch (error) {
+        console.error('Error en logout:', error);
+        // Forzar redirect como último recurso
+        window.location.href = '../login.html';
+      }
+    }
+
+    // Limpiar sesión de admin
+    function limpiarSesionAdmin() {
+      try {
+        localStorage.removeItem('esAdmin');
+        localStorage.removeItem('admin-timestamp');
+        localStorage.removeItem('admin-ua');
+        sessionStorage.removeItem('admin-session');
+      } catch (error) {
+        console.error('Error limpiando sesión:', error);
+      }
+    }
+
+    // Mostrar/ocultar loading
+    function mostrarLoading(mostrar) {
+      const loading = document.getElementById('loading-screen');
+      if (loading) {
+        loading.classList.toggle('d-none', !mostrar);
+      }
+    }
+
+    // Función de error genérica
+    function mostrarError(mensaje) {
+      console.error('Error:', mensaje);
+      const alertContainer = document.getElementById('alertas-sistema');
+      if (alertContainer) {
+        alertContainer.innerHTML = `
+          <div class="alert alert-danger alert-dismissible fade show">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Error:</strong> ${mensaje}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        `;
+      }
+    }
+
+    // Renovar sesión periódicamente
+    setInterval(() => {
+      try {
+        localStorage.setItem('admin-timestamp', Date.now().toString());
+      } catch (error) {
+        console.warn('No se pudo renovar timestamp de sesión');
+      }
+    }, 5 * 60 * 1000); // Cada 5 minutos
   </script>
+
+  <style>
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      backdrop-filter: blur(2px);
+    }
+
+    .pulse {
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .admin-user-info {
+      text-align: right;
+      font-size: 0.875rem;
+    }
+
+    .sidebar-separator {
+      height: 1px;
+      background: #dee2e6;
+      margin: 0.5rem 1rem;
+    }
+
+    .action-card {
+      transition: all 0.3s ease;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .action-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .chart-placeholder {
+      min-height: 300px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 8px;
+      border: 2px dashed #dee2e6;
+    }
+
+    .activity-item {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #f8f9fa;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 32px;
+      text-align: center;
+    }
+
+    .activity-text {
+      font-weight: 500;
+      color: #495057;
+    }
+
+    @media (max-width: 768px) {
+      .admin-content h1 {
+        font-size: 1.5rem;
+      }
+      
+      .admin-stat-card .card-body {
+        padding: 1.25rem;
+      }
+      
+      .action-card {
+        margin-bottom: 0.5rem;
+      }
+    }
+  </style>
 </body>
 </html>
