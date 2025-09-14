@@ -4,7 +4,7 @@ const productos = [
         id: 1,
         codigo: 'NIKE001',
         nombre: 'Nike Air Max 270',
-        descripcion: 'Zapatillas urbanas con tecnología Air Max para máximo confort.',
+        descripcion: 'Zapatillas urbanas con tecnología Air Max para máximo confort. Perfectas para uso diario con un diseño moderno y llamativo.',
         precio: 89990,
         stock: 15,
         stockCritico: 5,
@@ -16,7 +16,7 @@ const productos = [
         id: 2,
         codigo: 'ADIDAS001',
         nombre: 'Adidas Ultraboost 22',
-        descripcion: 'Zapatillas de running con amortiguación Boost.',
+        descripcion: 'Zapatillas de running con amortiguación Boost. Diseñadas para corredores que buscan máximo rendimiento.',
         precio: 119990,
         stock: 12,
         stockCritico: 3,
@@ -28,7 +28,7 @@ const productos = [
         id: 3,
         codigo: 'PUMA001',
         nombre: 'Puma RS-X',
-        descripcion: 'Zapatillas retro con diseño llamativo y comodidad.',
+        descripcion: 'Zapatillas retro con diseño llamativo y comodidad excepcional. Inspiradas en los años 80.',
         precio: 69990,
         stock: 20,
         stockCritico: 5,
@@ -40,7 +40,7 @@ const productos = [
         id: 4,
         codigo: 'NIKE002',
         nombre: 'Nike LeBron 20',
-        descripcion: 'Zapatillas de basketball profesional.',
+        descripcion: 'Zapatillas de basketball profesional. Diseñadas para jugadores que necesitan máximo soporte.',
         precio: 159990,
         stock: 8,
         stockCritico: 2,
@@ -52,7 +52,7 @@ const productos = [
         id: 5,
         codigo: 'NB001',
         nombre: 'New Balance 574',
-        descripcion: 'Clásicas zapatillas lifestyle con estilo retro.',
+        descripcion: 'Clásicas zapatillas lifestyle con estilo retro. Un ícono atemporal que combina comodidad.',
         precio: 79990,
         stock: 18,
         stockCritico: 4,
@@ -78,7 +78,7 @@ function getMarcaColor(marca) {
     return colores[marca] || 'bg-secondary';
 }
 
-// Mostrar productos destacados - Como en tus clases
+// Mostrar productos destacados - Con modal
 function mostrarDestacados() {
     const contenedor = document.getElementById('destacados-container');
     if (!contenedor) return;
@@ -89,19 +89,21 @@ function mostrarDestacados() {
     destacadas.forEach(producto => {
         contenedor.innerHTML += `
             <div class="col-md-3 mb-4">
-                <div class="zapatilla-card">
+                <div class="zapatilla-card" onclick="window.location.href='detalle-producto.html?id=${producto.id}'">
                     <div class="zapatilla-imagen">👟</div>
                     <div class="p-3">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h5 style="font-weight: 600;">${producto.nombre}</h5>
+                            <h5 style="font-weight: 600; color: #111;">${producto.nombre}</h5>
                             <span class="badge ${getMarcaColor(producto.marca)} marca-badge">${producto.marca.toUpperCase()}</span>
                         </div>
-                        <p class="text-muted small">${producto.descripcion}</p>
+                        <p class="text-muted small">${producto.descripcion.substring(0, 80)}...</p>
                         <div class="precio-nike">${formatearPrecio(producto.precio)}</div>
-                        <button class="btn-nike w-100 mt-2" onclick="agregarAlCarrito(${producto.id})">
-                            Agregar
-                        </button>
                     </div>
+                </div>
+                <div class="p-3 pt-0">
+                    <button class="btn-nike w-100" onclick="event.stopPropagation(); mostrarModalAgregar(${producto.id})">
+                        <i class="fas fa-cart-plus"></i> Agregar
+                    </button>
                 </div>
             </div>
         `;
@@ -113,7 +115,7 @@ function mostrarTodosLosProductos() {
     mostrarProductos(productos);
 }
 
-// Función general para mostrar productos
+// Función general para mostrar productos - Con modal
 function mostrarProductos(productosArray) {
     const contenedor = document.getElementById('productos-container');
     if (!contenedor) return;
@@ -126,22 +128,24 @@ function mostrarProductos(productosArray) {
         
         contenedor.innerHTML += `
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="zapatilla-card">
+                <div class="zapatilla-card" onclick="window.location.href='detalle-producto.html?id=${producto.id}'">
                     <div class="zapatilla-imagen">👟</div>
                     <div class="p-3">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h5 style="font-weight: 600;">${producto.nombre}</h5>
+                            <h5 style="font-weight: 600; color: #111;">${producto.nombre}</h5>
                             <span class="badge ${getMarcaColor(producto.marca)} marca-badge">${producto.marca.toUpperCase()}</span>
                         </div>
-                        <p class="text-muted small">${producto.descripcion}</p>
+                        <p class="text-muted small">${producto.descripcion.substring(0, 80)}...</p>
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <div class="precio-nike">${formatearPrecio(producto.precio)}</div>
                             <span class="badge ${stockClass}">${stockTexto}</span>
                         </div>
-                        <button class="btn-nike w-100" onclick="agregarAlCarrito(${producto.id})">
-                            Agregar al Carrito
-                        </button>
                     </div>
+                </div>
+                <div class="p-3 pt-0">
+                    <button class="btn-nike w-100" onclick="event.stopPropagation(); mostrarModalAgregar(${producto.id})">
+                        <i class="fas fa-cart-plus"></i> Agregar al Carrito
+                    </button>
                 </div>
             </div>
         `;

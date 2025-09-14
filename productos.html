@@ -17,6 +17,7 @@
             </a>
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="index.html">Inicio</a>
+                <a class="nav-link active" href="productos.html">Zapatillas</a>
                 <a class="nav-link" href="blogs.html">Blog</a>
                 <a class="nav-link" href="nosotros.html">Nosotros</a>
                 <a class="nav-link" href="contacto.html">Contacto</a>
@@ -28,13 +29,13 @@
     </nav>
 
     <!-- Contenido Principal -->
-    <div class="container py-5 mt-5">
+    <div class="container py-5">
         <h1 class="text-center mb-5" style="font-weight: 700;">TODAS LAS ZAPATILLAS</h1>
         
         <!-- Filtros -->
         <div class="row mb-4">
             <div class="col-md-6">
-                <select class="form-select" id="filtroMarca">
+                <select class="form-select" id="filtroMarca" onchange="filtrarProductos()">
                     <option value="">Todas las marcas</option>
                     <option value="nike">Nike</option>
                     <option value="adidas">Adidas</option>
@@ -43,7 +44,7 @@
                 </select>
             </div>
             <div class="col-md-6">
-                <select class="form-select" id="filtroCategoria">
+                <select class="form-select" id="filtroCategoria" onchange="filtrarProductos()">
                     <option value="">Todas las categorías</option>
                     <option value="running">Running</option>
                     <option value="casual">Casual</option>
@@ -67,10 +68,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             cargarCarrito();
             mostrarTodosLosProductos();
-            
-            // Event listeners para filtros
-            document.getElementById('filtroMarca').addEventListener('change', filtrarProductos);
-            document.getElementById('filtroCategoria').addEventListener('change', filtrarProductos);
         });
         
         function filtrarProductos() {

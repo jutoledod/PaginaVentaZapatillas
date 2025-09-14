@@ -46,6 +46,46 @@ function agregarAlCarrito(id) {
     }
 }
 
+// NUEVA FUNCIÓN: Aumentar cantidad
+function aumentarCantidad(id) {
+    const producto = productos.find(p => p.id === id);
+    const productoEnCarrito = carrito.find(item => item.id === id);
+    
+    if (productoEnCarrito && productoEnCarrito.cantidad < producto.stock) {
+        productoEnCarrito.cantidad++;
+        guardarCarrito();
+        actualizarContador();
+        mostrarCarrito();
+    } else {
+        alert('No hay más stock disponible');
+    }
+}
+
+// NUEVA FUNCIÓN: Disminuir cantidad
+function disminuirCantidad(id) {
+    const productoEnCarrito = carrito.find(item => item.id === id);
+    
+    if (productoEnCarrito) {
+        if (productoEnCarrito.cantidad > 1) {
+            productoEnCarrito.cantidad--;
+            guardarCarrito();
+            actualizarContador();
+            mostrarCarrito();
+        } else {
+            // Si la cantidad es 1, eliminar del carrito
+            eliminarDelCarrito(id);
+        }
+    }
+}
+
+// Eliminar producto del carrito
+function eliminarDelCarrito(id) {
+    carrito = carrito.filter(item => item.id !== id);
+    guardarCarrito();
+    actualizarContador();
+    mostrarCarrito();
+}
+
 // Actualizar contador del carrito
 function actualizarContador() {
     const contador = document.getElementById('contador');
@@ -55,7 +95,7 @@ function actualizarContador() {
     }
 }
 
-// Mostrar carrito completo
+// CARRITO MEJORADO: Con controles de cantidad
 function mostrarCarrito() {
     const contenedor = document.getElementById('contenido-carrito');
     if (!contenedor) return;
@@ -80,26 +120,34 @@ function mostrarCarrito() {
         total += subtotal;
         
         html += `
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <h5>${item.nombre}</h5>
-                            <p class="text-muted">
-                                <span class="badge ${getMarcaColor(item.marca)} me-2">${item.marca.toUpperCase()}</span>
-                                ${formatearPrecio(item.precio)} c/u
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <span>Cantidad: ${item.cantidad}</span>
-                        </div>
-                        <div class="col-md-3 text-end">
-                            <strong>${formatearPrecio(subtotal)}</strong>
-                            <br>
-                            <button class="btn btn-sm btn-outline-danger mt-1" onclick="eliminarDelCarrito(${item.id})">
-                                Eliminar
+            <div class="carrito-item">
+                <div class="row align-items-center">
+                    <div class="col-md-5">
+                        <h5>${item.nombre}</h5>
+                        <p class="text-muted">
+                            <span class="badge ${getMarcaColor(item.marca)} me-2">${item.marca.toUpperCase()}</span>
+                            ${formatearPrecio(item.precio)} c/u
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="cantidad-controls">
+                            <button class="cantidad-btn" onclick="disminuirCantidad(${item.id})" 
+                                ${item.cantidad <= 1 ? 'title="Eliminar producto"' : ''}>
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="mx-3 fw-bold fs-5">${item.cantidad}</span>
+                            <button class="cantidad-btn" onclick="aumentarCantidad(${item.id})">
+                                <i class="fas fa-plus"></i>
                             </button>
                         </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <strong class="fs-5">${formatearPrecio(subtotal)}</strong>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-sm btn-outline-danger" onclick="eliminarDelCarrito(${item.id})" title="Eliminar producto">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -107,25 +155,17 @@ function mostrarCarrito() {
     });
     
     html += `
-        <div class="card bg-dark text-white">
+        <div class="card bg-dark text-white mt-4">
             <div class="card-body text-center">
                 <h3>Total: ${formatearPrecio(total)}</h3>
                 <button class="btn btn-warning btn-lg mt-3" onclick="finalizarCompra()">
-                    FINALIZAR COMPRA
+                    <i class="fas fa-credit-card"></i> FINALIZAR COMPRA
                 </button>
             </div>
         </div>
     `;
     
     contenedor.innerHTML = html;
-}
-
-// Eliminar producto del carrito
-function eliminarDelCarrito(id) {
-    carrito = carrito.filter(item => item.id !== id);
-    guardarCarrito();
-    actualizarContador();
-    mostrarCarrito();
 }
 
 // Finalizar compra

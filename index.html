@@ -50,7 +50,8 @@
                             <i class="fas fa-shopping-cart"></i> (<span id="contador">0</span>)
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- ADMIN LINK OCULTO - Solo aparece después de login admin -->
+                    <li class="nav-item admin-link">
                         <a class="nav-link" href="admin/home.html">
                             <i class="fas fa-cog"></i> Admin
                         </a>
@@ -116,6 +117,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             cargarCarrito();
             mostrarDestacados();
+            verificarSesionAdmin(); // Verificar si ya está logueado como admin
         });
     </script>
 </body>
