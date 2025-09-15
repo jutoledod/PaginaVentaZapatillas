@@ -224,7 +224,12 @@ const loginManager = {
                 this.showLoginSuccess(result.user);
                 // Redirigir después de un momento
                 setTimeout(() => {
-                    navigation.goTo('index.html');
+                    // Si es administrador y viene del dashboard, volver ahí
+                    if (result.user.role === 'Administrador' && document.referrer.includes('dashboard.html')) {
+                        navigation.goTo('dashboard.html');
+                    } else {
+                        navigation.goTo('index.html');
+                    }
                 }, 1500);
             } else {
                 this.showLoginError(result.message);
@@ -458,8 +463,19 @@ function initAuthPage() {
         locationManager.setupLocationEvents();
     }
 
-    // Redirigir si ya está logueado
-    if (userSession.isLoggedIn()) {
+    // Verificar acceso al dashboard
+    if (window.location.pathname.includes('dashboard.html')) {
+        const currentUser = userSession.getCurrentUser();
+        if (!currentUser || currentUser.role !== 'Administrador') {
+            console.log('Acceso no autorizado al dashboard');
+            navigation.goTo('login.html');
+            return;
+        }
+    }
+    // Redirigir si ya está logueado en páginas de auth
+    else if (userSession.isLoggedIn() && 
+             (window.location.pathname.includes('login.html') || 
+              window.location.pathname.includes('registro.html'))) {
         console.log('Usuario ya autenticado, redirigiendo...');
         setTimeout(() => navigation.goTo('index.html'), 1000);
     }
