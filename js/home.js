@@ -22,7 +22,7 @@ function createProductCard(product) {
     return `
         <div class="product-card card" onclick="navigation.goToProductDetail(${product.id})">
             <div class="product-image">
-                <!-- Placeholder para imagen del producto -->
+                <img src="img/productos/${product.imagen}" alt="${product.nombre}">
             </div>
             <div class="product-info">
                 <div class="stock-status ${stockStatus.clase}">

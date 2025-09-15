@@ -94,6 +94,13 @@ function renderProductDetail() {
  * Renderizar información del producto
  */
 function renderProductInfo() {
+    // Imagen principal
+    const imageElement = document.getElementById('product-image');
+    if (imageElement) {
+        imageElement.src = `img/productos/${currentProduct.imagen}`;
+        imageElement.alt = currentProduct.nombre;
+    }
+
     // Categoría
     const categoryElement = document.getElementById('product-category');
     if (categoryElement) {

@@ -16,7 +16,7 @@ const appData = {
             stock: 15,
             stockCritico: 5,
             categoria: "Deportivas",
-            imagen: "nike-air-max-270.jpg"
+            imagen: "nike-air-max-270.png"
         },
         {
             id: 2,
