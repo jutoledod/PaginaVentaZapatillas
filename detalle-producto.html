@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Producto - SneakerStore</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/detalle-producto.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>SneakerStore</h1>
+                </div>
+
+                <nav class="nav">
+                    <button class="nav-item" data-href="index.html">Inicio</button>
+                    <button class="nav-item" data-href="productos.html">Productos</button>
+                    <button class="nav-item" data-href="nosotros.html">Nosotros</button>
+                    <button class="nav-item" data-href="blogs.html">Blogs</button>
+                    <button class="nav-item" data-href="contacto.html">Contacto</button>
+                </nav>
+
+                <div class="header-actions d-flex align-center gap-md">
+                    <span id="user-info" class="user-info"></span>
+                    <button id="cart-button" class="btn btn-outline">
+                        Carrito <span id="cart-count">(0)</span>
+                    </button>
+                    <button id="login-button" class="btn btn-primary" onclick="navigation.goTo('login.html')">
+                        Iniciar Sesión
+                    </button>
+                    <button id="logout-button" class="btn btn-danger d-none">
+                        Cerrar Sesión
+                    </button>
+                    <button class="btn btn-secondary" onclick="navigation.goTo('registro.html')">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="product-detail-container">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="index.html">Inicio</a>
+                <span class="separator">></span>
+                <a href="productos.html">Productos</a>
+                <span class="separator">></span>
+                <span>Cargando...</span>
+            </nav>
+
+            <!-- Contenedor de alertas -->
+            <div id="product-alerts"></div>
+
+            <!-- Layout principal del producto -->
+            <div class="product-detail-layout">
+                <!-- Galería del producto -->
+                <div class="product-gallery">
+                    <div class="product-main-image">
+                        <div class="image-badge">Disponible</div>
+                        <!-- La imagen se cargará aquí -->
+                    </div>
+                </div>
+
+                <!-- Información del producto -->
+                <div class="product-info">
+                    <!-- Categoría -->
+                    <span id="product-category" class="product-category">Cargando...</span>
+
+                    <!-- Título -->
+                    <h1 id="product-title" class="product-title">Cargando producto...</h1>
+
+                    <!-- Código del producto -->
+                    <div id="product-code" class="product-code">
+                        <strong>Código:</strong> ---
+                    </div>
+
+                    <!-- Precio -->
+                    <div id="product-price" class="product-price">
+                        <span class="price-currency">$</span>
+                        ---
+                    </div>
+
+                    <!-- Información de stock -->
+                    <div class="stock-section">
+                        <h4>Disponibilidad</h4>
+                        <div id="stock-indicator" class="stock-indicator">
+                            <div class="stock-dot high"></div>
+                            <span id="stock-text" class="stock-text">Disponible</span>
+                        </div>
+                        <div id="stock-count" class="stock-count">-- unidades disponibles</div>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="product-description">
+                        <h3>Descripción</h3>
+                        <p id="product-description-text">
+                            Cargando descripción del producto...
+                        </p>
+                    </div>
+
+                    <!-- Sección de compra -->
+                    <div class="purchase-section">
+                        <!-- Selector de cantidad -->
+                        <div class="quantity-selector">
+                            <label for="quantity-input">Cantidad:</label>
+                            <div class="quantity-controls">
+                                <button id="decrease-quantity" class="quantity-btn" type="button">-</button>
+                                <input id="quantity-input" type="number" class="quantity-input" value="1" min="1" max="10">
+                                <button id="increase-quantity" class="quantity-btn" type="button">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Acciones principales -->
+                        <div class="product-actions">
+                            <button id="add-to-cart-btn" class="add-to-cart-btn">
+                                <span>🛒</span>
+                                <span>Agregar al Carrito (1)</span>
+                            </button>
+
+                            <div class="secondary-actions">
+                                <button id="continue-shopping" class="btn btn-outline">
+                                    Seguir Comprando
+                                </button>
+                                <button id="view-cart" class="btn btn-secondary">
+                                    Ver Carrito
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Características adicionales -->
+                    <div style="
+                        margin-top: var(--spacing-lg);
+                        padding: var(--spacing-md);
+                        background: var(--bg-secondary);
+                        border-radius: var(--border-radius);
+                    ">
+                        <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: var(--spacing-sm); color: var(--text-color);">
+                            ¿Por qué elegir SneakerStore?
+                        </h4>
+                        <ul style="
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+                            font-size: 0.875rem;
+                            color: var(--text-muted);
+                        ">
+                            <li style="margin-bottom: var(--spacing-xs);">✅ Productos 100% originales</li>
+                            <li style="margin-bottom: var(--spacing-xs);">✅ Garantía oficial del fabricante</li>
+                            <li style="margin-bottom: var(--spacing-xs);">✅ Envío gratis sobre $50.000</li>
+                            <li style="margin-bottom: var(--spacing-xs);">✅ Cambios hasta 30 días</li>
+                            <li>✅ Atención al cliente 24/7</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Productos relacionados -->
+            <section class="related-products-section">
+                <h3>Productos Relacionados</h3>
+                <div id="related-products-grid" class="related-products-grid">
+                    <!-- Los productos relacionados se cargarán aquí -->
+                </div>
+            </section>
+
+            <!-- Información de envío y devoluciones -->
+            <section style="
+                background: white;
+                padding: var(--spacing-xl);
+                border-radius: var(--border-radius-lg);
+                box-shadow: var(--shadow-sm);
+                margin-top: var(--spacing-xl);
+            ">
+                <div style="
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: var(--spacing-lg);
+                ">
+                    <div style="text-align: center;">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            background: var(--primary-color);
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin: 0 auto var(--spacing-md);
+                            font-size: 1.5rem;
+                        ">🚚</div>
+                        <h4 style="margin-bottom: var(--spacing-sm);">Envío Rápido</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin: 0;">
+                            Envío gratis en compras sobre $50.000. Recibe en 24-48 horas en RM.
+                        </p>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            background: var(--secondary-color);
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin: 0 auto var(--spacing-md);
+                            font-size: 1.5rem;
+                        ">🔄</div>
+                        <h4 style="margin-bottom: var(--spacing-sm);">Cambios Fáciles</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin: 0;">
+                            Cambios y devoluciones sin costo hasta 30 días después de tu compra.
+                        </p>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            background: var(--warning-color);
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin: 0 auto var(--spacing-md);
+                            font-size: 1.5rem;
+                        ">🛡️</div>
+                        <h4 style="margin-bottom: var(--spacing-sm);">Garantía Original</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin: 0;">
+                            Todos nuestros productos incluyen garantía oficial del fabricante.
+                        </p>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            background: #17a2b8;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin: 0 auto var(--spacing-md);
+                            font-size: 1.5rem;
+                        ">💳</div>
+                        <h4 style="margin-bottom: var(--spacing-sm);">Pago Seguro</h4>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin: 0;">
+                            Paga con tarjeta de crédito, débito o transferencia de forma 100% segura.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SneakerStore</h4>
+                    <p>Tu tienda de confianza para las mejores zapatillas</p>
+                    <p>Desde 2020 ofreciendo calidad y estilo</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <p><a href="productos.html">Productos</a></p>
+                    <p><a href="nosotros.html">Nosotros</a></p>
+                    <p><a href="blogs.html">Blog</a></p>
+                    <p><a href="contacto.html">Contacto</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Atención al Cliente</h4>
+                    <p>Teléfono: +56 9 1234 5678</p>
+                    <p>Email: info@sneakerstore.cl</p>
+                    <p>Horario: Lun-Vie 9:00-18:00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SneakerStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/carrito.js"></script>
+    <script src="js/detalle-producto.js"></script>
+</body>
+</html>

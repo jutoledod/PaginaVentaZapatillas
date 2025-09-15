@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - SneakerStore</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/productos.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <h1>SneakerStore</h1>
+                </div>
+
+                <!-- Navegación -->
+                <nav class="nav">
+                    <button class="nav-item" data-href="index.html">Inicio</button>
+                    <button class="nav-item" data-href="productos.html">Productos</button>
+                    <button class="nav-item" data-href="nosotros.html">Nosotros</button>
+                    <button class="nav-item" data-href="blogs.html">Blogs</button>
+                    <button class="nav-item" data-href="contacto.html">Contacto</button>
+                </nav>
+
+                <!-- Acciones del header -->
+                <div class="header-actions d-flex align-center gap-md">
+                    <span id="user-info" class="user-info"></span>
+                    <button id="cart-button" class="btn btn-outline">
+                        Carrito <span id="cart-count">(0)</span>
+                    </button>
+                    <button id="login-button" class="btn btn-primary" onclick="navigation.goTo('login.html')">
+                        Iniciar Sesión
+                    </button>
+                    <button id="logout-button" class="btn btn-danger d-none">
+                        Cerrar Sesión
+                    </button>
+                    <button class="btn btn-secondary" onclick="navigation.goTo('registro.html')">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="index.html">Inicio</a>
+                <span class="separator">></span>
+                <span>Productos</span>
+            </nav>
+
+            <!-- Título de la página -->
+            <div class="page-header">
+                <h1>Nuestros Productos</h1>
+                <p>Descubre toda nuestra colección de zapatillas premium</p>
+            </div>
+
+            <!-- Filtros y búsqueda -->
+            <div class="filters-section card">
+                <div class="card-body">
+                    <div class="filters-content">
+                        <div class="filter-group">
+                            <label for="search-input" class="form-label">Buscar producto:</label>
+                            <input type="text" id="search-input" class="form-control" placeholder="Nombre o código del producto">
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="category-filter" class="form-label">Categoría:</label>
+                            <select id="category-filter" class="form-control">
+                                <option value="">Todas las categorías</option>
+                                <!-- Las opciones se cargarán dinámicamente -->
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="price-range" class="form-label">Rango de precio:</label>
+                            <select id="price-range" class="form-control">
+                                <option value="">Todos los precios</option>
+                                <option value="0-50000">Hasta $50.000</option>
+                                <option value="50000-100000">$50.000 - $100.000</option>
+                                <option value="100000-150000">$100.000 - $150.000</option>
+                                <option value="150000-999999">Más de $150.000</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="sort-by" class="form-label">Ordenar por:</label>
+                            <select id="sort-by" class="form-control">
+                                <option value="name-asc">Nombre (A-Z)</option>
+                                <option value="name-desc">Nombre (Z-A)</option>
+                                <option value="price-asc">Precio (menor a mayor)</option>
+                                <option value="price-desc">Precio (mayor a menor)</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-actions">
+                            <button id="apply-filters" class="btn btn-primary">Aplicar Filtros</button>
+                            <button id="clear-filters" class="btn btn-outline">Limpiar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resultados -->
+            <div class="results-section">
+                <div class="results-header d-flex justify-between align-center mb-md">
+                    <p id="results-count" class="results-text">Mostrando todos los productos</p>
+                    <button id="grid-view" class="btn btn-outline active">Vista Grid</button>
+                </div>
+
+                <!-- Grid de productos -->
+                <div id="products-grid" class="products-grid">
+                    <!-- Los productos se cargarán dinámicamente -->
+                </div>
+
+                <!-- Mensaje cuando no hay productos -->
+                <div id="no-products" class="no-products text-center d-none">
+                    <h3>No se encontraron productos</h3>
+                    <p>Intenta ajustar los filtros o buscar con otros términos</p>
+                    <button class="btn btn-primary" onclick="clearAllFilters()">Ver todos los productos</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SneakerStore</h4>
+                    <p>Tu tienda de confianza para las mejores zapatillas</p>
+                    <p>Desde 2020 ofreciendo calidad y estilo</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <p><a href="productos.html">Productos</a></p>
+                    <p><a href="nosotros.html">Nosotros</a></p>
+                    <p><a href="blogs.html">Blog</a></p>
+                    <p><a href="contacto.html">Contacto</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Atención al Cliente</h4>
+                    <p>Teléfono: +56 9 1234 5678</p>
+                    <p>Email: info@sneakerstore.cl</p>
+                    <p>Horario: Lun-Vie 9:00-18:00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SneakerStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/productos.js"></script>
+</body>
+</html>

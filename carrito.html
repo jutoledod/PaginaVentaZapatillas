@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - SneakerStore</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/carrito.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <h1>SneakerStore</h1>
+                </div>
+
+                <!-- Navegación -->
+                <nav class="nav">
+                    <button class="nav-item" data-href="index.html">Inicio</button>
+                    <button class="nav-item" data-href="productos.html">Productos</button>
+                    <button class="nav-item" data-href="nosotros.html">Nosotros</button>
+                    <button class="nav-item" data-href="blogs.html">Blogs</button>
+                    <button class="nav-item" data-href="contacto.html">Contacto</button>
+                </nav>
+
+                <!-- Acciones del header -->
+                <div class="header-actions d-flex align-center gap-md">
+                    <span id="user-info" class="user-info"></span>
+                    <button id="cart-button" class="btn btn-outline">
+                        Carrito <span id="cart-count">(0)</span>
+                    </button>
+                    <button id="login-button" class="btn btn-primary" onclick="navigation.goTo('login.html')">
+                        Iniciar Sesión
+                    </button>
+                    <button id="logout-button" class="btn btn-danger d-none">
+                        Cerrar Sesión
+                    </button>
+                    <button class="btn btn-secondary" onclick="navigation.goTo('registro.html')">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="cart-container">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="index.html">Inicio</a>
+                <span class="separator">></span>
+                <span>Carrito de Compras</span>
+            </nav>
+
+            <!-- Header del carrito -->
+            <div class="cart-header">
+                <h1>Tu Carrito de Compras</h1>
+                <p>Revisa tus productos seleccionados y procede al pago</p>
+            </div>
+
+            <!-- Contenido del carrito -->
+            <div class="cart-content">
+                <!-- Lista de productos del carrito -->
+                <div id="cart-items" class="cart-items">
+                    <div class="cart-items-header">
+                        <h2>Productos Seleccionados</h2>
+                        <button id="clear-cart" class="clear-cart-btn">
+                            Vaciar Carrito
+                        </button>
+                    </div>
+
+                    <div id="cart-items-list">
+                        <!-- Los items se cargarán dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Resumen del carrito -->
+                <div id="cart-summary" class="cart-summary">
+                    <div id="cart-summary-content">
+                        <!-- El resumen se cargará dinámicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estado de carrito vacío -->
+            <div id="empty-cart" class="empty-cart" style="display: none;">
+                <div class="empty-cart-icon">🛒</div>
+                <h2>Tu carrito está vacío</h2>
+                <p>
+                    Parece que aún no has agregado productos a tu carrito. 
+                    ¡Explora nuestra increíble colección de zapatillas!
+                </p>
+                <div class="cart-actions">
+                    <button class="btn btn-primary btn-lg" onclick="navigation.goTo('productos.html')">
+                        Ver Productos
+                    </button>
+                    <button class="btn btn-outline" onclick="navigation.goTo('index.html')">
+                        Volver al Inicio
+                    </button>
+                </div>
+
+                <!-- Productos recomendados cuando el carrito está vacío -->
+                <div class="recommended-products" style="margin-top: var(--spacing-xl);">
+                    <h3 style="text-align: center; margin-bottom: var(--spacing-lg); color: var(--text-color);">
+                        Productos Recomendados
+                    </h3>
+                    <div id="recommended-grid" class="products-grid" style="max-width: 800px; margin: 0 auto;">
+                        <!-- Los productos recomendados se cargarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SneakerStore</h4>
+                    <p>Tu tienda de confianza para las mejores zapatillas</p>
+                    <p>Desde 2020 ofreciendo calidad y estilo</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Información de Compra</h4>
+                    <p>🚚 Envío gratis sobre $50.000</p>
+                    <p>🔒 Compra 100% segura</p>
+                    <p>📦 Entrega en 24-48 horas</p>
+                    <p>↩️ Cambios y devoluciones</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Métodos de Pago</h4>
+                    <p>💳 Tarjetas de crédito y débito</p>
+                    <p>🏪 Transferencia bancaria</p>
+                    <p>📱 Pago en línea</p>
+                    <p>🏬 Pago contra entrega</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Atención al Cliente</h4>
+                    <p>Teléfono: +56 9 1234 5678</p>
+                    <p>Email: info@sneakerstore.cl</p>
+                    <p>Horario: Lun-Vie 9:00-18:00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SneakerStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/carrito.js"></script>
+
+    <!-- Script adicional para productos recomendados -->
+    <script>
+        // Mostrar productos recomendados cuando el carrito está vacío
+        function showRecommendedProducts() {
+            const recommendedGrid = document.getElementById('recommended-grid');
+            if (!recommendedGrid) return;
+
+            // Mostrar 3 productos aleatorios
+            const shuffled = [...appData.productos].sort(() => 0.5 - Math.random());
+            const recommended = shuffled.slice(0, 3);
+
+            recommendedGrid.innerHTML = recommended.map(product => `
+                <div class="product-card card" onclick="navigation.goToProductDetail(${product.id})" style="cursor: pointer;">
+                    <div class="product-image" style="height: 150px;">
+                        <!-- Placeholder para imagen -->
+                    </div>
+                    <div class="card-body" style="padding: var(--spacing-md);">
+                        <h4 style="font-size: 1rem; margin-bottom: var(--spacing-sm);">${product.nombre}</h4>
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: var(--spacing-md);">
+                            ${product.descripcion.substring(0, 80)}...
+                        </p>
+                        <div style="font-size: 1.125rem; font-weight: 700; color: var(--secondary-color); margin-bottom: var(--spacing-md);">
+                            ${ui.formatPrice(product.precio)}
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; font-size: 0.875rem;" 
+                                onclick="event.stopPropagation(); addProductToCart(${product.id}); navigation.goTo('carrito.html');">
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Llamar a la función cuando el carrito esté vacío
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                if (cart.getItemCount() === 0) {
+                    showRecommendedProducts();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

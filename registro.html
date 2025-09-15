@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Usuario - SneakerStore</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <!-- Header simplificado -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <h1>SneakerStore</h1>
+                </div>
+
+                <!-- Enlaces de navegación básicos -->
+                <div class="header-actions d-flex align-center gap-md">
+                    <button class="btn btn-outline" onclick="navigation.goTo('index.html')">
+                        Volver al Inicio
+                    </button>
+                    <button class="btn btn-primary" onclick="navigation.goTo('login.html')">
+                        Iniciar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="auth-container">
+        <div class="auth-form">
+            <!-- Header del formulario -->
+            <div class="auth-header">
+                <h1>Registro de Usuario</h1>
+                <p>Crea tu cuenta para acceder a todas las funcionalidades</p>
+            </div>
+
+            <!-- Formulario de registro -->
+            <form id="register-form" novalidate>
+                <!-- RUN -->
+                <div class="form-group">
+                    <label for="run" class="form-label required tooltip-validation">
+                        RUN
+                        <span class="tooltip-text">Ingresa tu RUN sin puntos ni guión (ej: 123456789)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="run" 
+                        name="run" 
+                        class="form-control" 
+                        placeholder="12345678-9"
+                        required
+                        maxlength="12"
+                    >
+                </div>
+
+                <!-- Nombre -->
+                <div class="form-group">
+                    <label for="firstName" class="form-label required">Nombre</label>
+                    <input 
+                        type="text" 
+                        id="firstName" 
+                        name="firstName" 
+                        class="form-control" 
+                        placeholder="Tu nombre"
+                        required
+                        maxlength="50"
+                        autocomplete="given-name"
+                    >
+                </div>
+
+                <!-- Apellidos -->
+                <div class="form-group">
+                    <label for="lastName" class="form-label required">Apellidos</label>
+                    <input 
+                        type="text" 
+                        id="lastName" 
+                        name="lastName" 
+                        class="form-control" 
+                        placeholder="Tus apellidos"
+                        required
+                        maxlength="100"
+                        autocomplete="family-name"
+                    >
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email" class="form-label required tooltip-validation">
+                        Correo Electrónico
+                        <span class="tooltip-text">Solo se permiten correos @duoc.cl, @profesor.duoc.cl y @gmail.com</span>
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-control" 
+                        placeholder="tu@email.com"
+                        required
+                        maxlength="100"
+                        autocomplete="email"
+                    >
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-group">
+                    <label for="password" class="form-label required tooltip-validation">
+                        Contraseña
+                        <span class="tooltip-text">Entre 4 y 10 caracteres</span>
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-control" 
+                        placeholder="Tu contraseña"
+                        required
+                        minlength="4"
+                        maxlength="10"
+                        autocomplete="new-password"
+                    >
+                </div>
+
+                <!-- Confirmar Contraseña -->
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label required">Confirmar Contraseña</label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        class="form-control" 
+                        placeholder="Confirma tu contraseña"
+                        required
+                        autocomplete="new-password"
+                    >
+                </div>
+
+                <!-- Teléfono (opcional) -->
+                <div class="form-group">
+                    <label for="phone" class="form-label">Teléfono (opcional)</label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        class="form-control" 
+                        placeholder="+56 9 1234 5678"
+                        autocomplete="tel"
+                    >
+                </div>
+
+                <!-- Fecha de Nacimiento (opcional) -->
+                <div class="form-group">
+                    <label for="birthDate" class="form-label">Fecha de Nacimiento (opcional)</label>
+                    <input 
+                        type="date" 
+                        id="birthDate" 
+                        name="birthDate" 
+                        class="form-control"
+                        autocomplete="bday"
+                    >
+                </div>
+
+                <!-- Región y Comuna -->
+                <div class="form-group">
+                    <label for="region" class="form-label required">Región</label>
+                    <select id="region" name="region" class="form-control" required>
+                        <option value="">-- Seleccione la región --</option>
+                        <!-- Las opciones se cargarán dinámicamente -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="comuna" class="form-label required">Comuna</label>
+                    <select id="comuna" name="comuna" class="form-control" required>
+                        <option value="">-- Seleccione la comuna --</option>
+                        <!-- Las opciones se cargarán dinámicamente -->
+                    </select>
+                </div>
+
+                <!-- Dirección -->
+                <div class="form-group">
+                    <label for="address" class="form-label required">Dirección</label>
+                    <textarea 
+                        id="address" 
+                        name="address" 
+                        class="form-control" 
+                        placeholder="Tu dirección completa"
+                        required
+                        maxlength="300"
+                        rows="3"
+                        autocomplete="street-address"
+                    ></textarea>
+                </div>
+
+                <!-- Términos y condiciones -->
+                <div class="custom-checkbox">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        Acepto los <a href="#" target="_blank">términos y condiciones</a> 
+                        y la <a href="#" target="_blank">política de privacidad</a>
+                    </label>
+                </div>
+
+                <!-- Botón de submit -->
+                <button type="submit" class="btn btn-auth-primary">
+                    Crear Cuenta
+                </button>
+            </form>
+
+            <!-- Enlaces adicionales -->
+            <div class="auth-links">
+                <p>¿Ya tienes una cuenta?</p>
+                <a href="login.html">Iniciar sesión aquí</a>
+            </div>
+
+            <!-- Información adicional -->
+            <div class="auth-alert alert-info mt-lg" style="background-color: rgba(23, 162, 184, 0.1); border-color: #17a2b8; color: #0c5460;">
+                <strong>Información importante:</strong><br>
+                <small>
+                    • Los campos marcados con (*) son obligatorios<br>
+                    • Tu información estará segura con nosotros<br>
+                    • Recibirás un email de confirmación
+                </small>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer simplificado -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 SneakerStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

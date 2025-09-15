@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - SneakerStore</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <!-- Header simplificado -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <h1>SneakerStore</h1>
+                </div>
+
+                <!-- Enlaces de navegación básicos -->
+                <div class="header-actions d-flex align-center gap-md">
+                    <button class="btn btn-outline" onclick="navigation.goTo('index.html')">
+                        Volver al Inicio
+                    </button>
+                    <button class="btn btn-secondary" onclick="navigation.goTo('registro.html')">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="auth-container">
+        <div class="auth-form">
+            <!-- Header del formulario -->
+            <div class="auth-header">
+                <h1>Iniciar Sesión</h1>
+                <p>Ingresa tus credenciales para acceder a tu cuenta</p>
+            </div>
+
+            <!-- Formulario de login -->
+            <form id="login-form" novalidate>
+                <!-- Campo Email -->
+                <div class="form-group">
+                    <label for="email" class="form-label required">Correo Electrónico</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-control" 
+                        placeholder="tu@email.com"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+
+                <!-- Campo Contraseña -->
+                <div class="form-group">
+                    <label for="password" class="form-label required">Contraseña</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-control" 
+                        placeholder="Tu contraseña"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <!-- Recordar sesión (opcional) -->
+                <div class="custom-checkbox">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Recordar mi sesión</label>
+                </div>
+
+                <!-- Botón de submit -->
+                <button type="submit" class="btn btn-auth-primary">
+                    Iniciar Sesión
+                </button>
+            </form>
+
+            <!-- Información adicional -->
+            <div class="auth-links">
+                <p>¿No tienes una cuenta?</p>
+                <a href="registro.html">Registrate aquí</a>
+            </div>
+
+            <!-- Información de usuarios demo -->
+            <div class="auth-alert alert-info mt-lg" style="background-color: rgba(23, 162, 184, 0.1); border-color: #17a2b8; color: #0c5460;">
+                <strong>Usuarios de prueba:</strong><br>
+                <small>
+                    <strong>Admin:</strong> admin@duoc.cl / admin123<br>
+                    <strong>Cliente:</strong> cliente@gmail.com / demo123
+                </small>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer simplificado -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 SneakerStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,11 +1,146 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SneakerStore - Las Mejores Zapatillas</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <h1>SneakerStore</h1>
+                </div>
+
+                <!-- Navegación -->
+                <nav class="nav">
+                    <button class="nav-item" data-href="index.html">Inicio</button>
+                    <button class="nav-item" data-href="productos.html">Productos</button>
+                    <button class="nav-item" data-href="nosotros.html">Nosotros</button>
+                    <button class="nav-item" data-href="blogs.html">Blogs</button>
+                    <button class="nav-item" data-href="contacto.html">Contacto</button>
+                </nav>
+
+                <!-- Acciones del header -->
+                <div class="header-actions d-flex align-center gap-md">
+                    <span id="user-info" class="user-info"></span>
+                    <button id="cart-button" class="btn btn-outline">
+                        Carrito <span id="cart-count">(0)</span>
+                    </button>
+                    <button id="login-button" class="btn btn-primary" onclick="navigation.goTo('login.html')">
+                        Iniciar Sesión
+                    </button>
+                    <button id="logout-button" class="btn btn-danger d-none">
+                        Cerrar Sesión
+                    </button>
+                    <button class="btn btn-secondary" onclick="navigation.goTo('registro.html')">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content text-center">
+                    <h2>Las Mejores Zapatillas del Mercado</h2>
+                    <p>Descubre nuestra colección exclusiva de zapatillas de las mejores marcas</p>
+                    <button class="btn btn-secondary btn-lg" onclick="navigation.goTo('productos.html')">
+                        Ver Productos
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Productos Destacados -->
+        <section class="featured-products">
+            <div class="container">
+                <h3 class="section-title text-center mb-xl">Productos Destacados</h3>
+                <div id="featured-products-grid" class="products-grid">
+                    <!-- Los productos se cargarán dinámicamente con JavaScript -->
+                </div>
+                <div class="text-center mt-lg">
+                    <button class="btn btn-primary btn-lg" onclick="navigation.goTo('productos.html')">
+                        Ver Todos los Productos
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Información de la empresa -->
+        <section class="company-info">
+            <div class="container">
+                <div class="info-content text-center">
+                    <h3 class="mb-lg">¿Por qué elegir SneakerStore?</h3>
+                    <div class="features-grid">
+                        <div class="feature-card card">
+                            <div class="card-body text-center">
+                                <h4>Productos Auténticos</h4>
+                                <p>Todas nuestras zapatillas son 100% originales y vienen con garantía del fabricante.</p>
+                            </div>
+                        </div>
+                        <div class="feature-card card">
+                            <div class="card-body text-center">
+                                <h4>Envío Gratis</h4>
+                                <p>Envío gratuito a todo Chile en compras superiores a $50.000.</p>
+                            </div>
+                        </div>
+                        <div class="feature-card card">
+                            <div class="card-body text-center">
+                                <h4>Atención Personalizada</h4>
+                                <p>Nuestro equipo te ayuda a encontrar las zapatillas perfectas para ti.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SneakerStore</h4>
+                    <p>Tu tienda de confianza para las mejores zapatillas</p>
+                    <p>Desde 2020 ofreciendo calidad y estilo</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <p><a href="productos.html">Productos</a></p>
+                    <p><a href="nosotros.html">Nosotros</a></p>
+                    <p><a href="blogs.html">Blog</a></p>
+                    <p><a href="contacto.html">Contacto</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Atención al Cliente</h4>
+                    <p>Teléfono: +56 9 1234 5678</p>
+                    <p>Email: info@sneakerstore.cl</p>
+                    <p>Horario: Lun-Vie 9:00-18:00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SneakerStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/home.js"></script>
 </body>
 </html>

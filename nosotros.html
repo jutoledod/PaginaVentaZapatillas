@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros - SneakerStore</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .about-container {
+            padding: var(--spacing-xl) 0;
+            min-height: calc(100vh - 300px);
+        }
+
+        .about-hero {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-xl) 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: var(--border-radius-lg);
+        }
+
+        .about-hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-color);
+        }
+
+        .about-hero p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto var(--spacing-xl);
+        }
+
+        .about-content h2 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-color);
+        }
+
+        .about-content p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .team-section {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .team-section h2 {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .team-member {
+            text-align: center;
+            padding: var(--spacing-lg);
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius-lg);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-4px);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            margin: 0 auto var(--spacing-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .team-member h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-color);
+        }
+
+        .team-member .role {
+            font-size: 0.875rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .team-member p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .about-hero h1 {
+                font-size: 2rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>SneakerStore</h1>
+                </div>
+
+                <nav class="nav">
+                    <button class="nav-item" data-href="index.html">Inicio</button>
+                    <button class="nav-item" data-href="productos.html">Productos</button>
+                    <button class="nav-item" data-href="nosotros.html">Nosotros</button>
+                    <button class="nav-item" data-href="blogs.html">Blogs</button>
+                    <button class="nav-item" data-href="contacto.html">Contacto</button>
+                </nav>
+
+                <div class="header-actions d-flex align-center gap-md">
+                    <span id="user-info" class="user-info"></span>
+                    <button id="cart-button" class="btn btn-outline">
+                        Carrito <span id="cart-count">(0)</span>
+                    </button>
+                    <button id="login-button" class="btn btn-primary" onclick="navigation.goTo('login.html')">
+                        Iniciar Sesión
+                    </button>
+                    <button id="logout-button" class="btn btn-danger d-none">
+                        Cerrar Sesión
+                    </button>
+                    <button class="btn btn-secondary" onclick="navigation.goTo('registro.html')">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="about-container">
+        <div class="container">
+            <!-- Hero section -->
+            <section class="about-hero">
+                <h1>Sobre SneakerStore</h1>
+                <p>Somos una empresa chilena especializada en la venta de zapatillas premium. Desde 2020, nos hemos dedicado a traer las mejores marcas internacionales a Chile.</p>
+            </section>
+
+            <!-- Contenido principal -->
+            <section class="about-content">
+                <h2>Nuestra Historia</h2>
+                <p>
+                    SneakerStore nació en 2020 con la visión de democratizar el acceso a las mejores zapatillas del mundo. 
+                    Comenzamos como una pequeña tienda online y, gracias a la confianza de nuestros clientes, hemos crecido 
+                    hasta convertirnos en una de las referencias en el mercado chileno de calzado deportivo premium.
+                </p>
+
+                <p>
+                    Trabajamos directamente con las marcas más reconocidas mundialmente: Nike, Adidas, Converse, Vans, 
+                    Puma y New Balance, entre otras. Esto nos permite ofrecer productos 100% originales con garantía 
+                    oficial del fabricante.
+                </p>
+
+                <h2>Nuestra Misión</h2>
+                <p>
+                    Ofrecer a nuestros clientes las mejores zapatillas del mercado con la garantía de autenticidad, 
+                    precios competitivos y un servicio al cliente excepcional. Creemos que cada persona merece tener 
+                    acceso a productos de calidad que reflejen su estilo personal y necesidades específicas.
+                </p>
+
+                <h2>¿Por qué elegir SneakerStore?</h2>
+                <ul style="font-size: 1rem; line-height: 1.7; color: var(--text-color); margin-bottom: var(--spacing-lg);">
+                    <li>✅ Productos 100% originales con garantía oficial</li>
+                    <li>✅ Envío gratuito en compras sobre $50.000</li>
+                    <li>✅ Atención personalizada especializada</li>
+                    <li>✅ Política de cambios y devoluciones flexible</li>
+                    <li>✅ Más de 4 años de experiencia en el mercado</li>
+                    <li>✅ Pagos seguros y múltiples métodos disponibles</li>
+                </ul>
+            </section>
+
+            <!-- Equipo -->
+            <section class="team-section">
+                <h2>Nuestro Equipo</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="team-avatar">CR</div>
+                        <h3>Carlos Rodríguez</h3>
+                        <div class="role">CEO & Fundador</div>
+                        <p>Apasionado por las zapatillas desde siempre, Carlos fundó SneakerStore con la visión de acercar las mejores marcas a Chile.</p>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="team-avatar">MG</div>
+                        <h3>María González</h3>
+                        <div class="role">Directora Comercial</div>
+                        <p>Con más de 10 años en retail fashion, María lidera nuestras estrategias comerciales y relaciones con marcas.</p>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="team-avatar">JP</div>
+                        <h3>Juan Pérez</h3>
+                        <div class="role">Gerente de Operaciones</div>
+                        <p>Juan se encarga de que cada pedido llegue perfectamente y a tiempo, gestionando nuestra logística nacional.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SneakerStore</h4>
+                    <p>Tu tienda de confianza para las mejores zapatillas</p>
+                    <p>Desde 2020 ofreciendo calidad y estilo</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <p><a href="productos.html">Productos</a></p>
+                    <p><a href="nosotros.html">Nosotros</a></p>
+                    <p><a href="blogs.html">Blog</a></p>
+                    <p><a href="contacto.html">Contacto</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Atención al Cliente</h4>
+                    <p>Teléfono: +56 9 1234 5678</p>
+                    <p>Email: info@sneakerstore.cl</p>
+                    <p>Horario: Lun-Vie 9:00-18:00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SneakerStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+</body>
+</html>

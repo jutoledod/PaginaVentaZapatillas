@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrativo - SneakerStore</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>SneakerStore Admin</h1>
+                </div>
+
+                <div class="header-actions d-flex align-center gap-md">
+                    <button class="btn btn-outline" onclick="navigation.goTo('../index.html')">
+                        Ver Tienda
+                    </button>
+                    <span id="user-info" class="user-info"></span>
+                    <button id="logout-button" class="btn btn-danger">
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="admin-container">
+        <div class="container">
+            <!-- Header del admin -->
+            <section class="admin-header">
+                <h1>Panel de Administración</h1>
+                <p>Gestiona usuarios, productos y configuraciones de la tienda</p>
+            </section>
+
+            <!-- Layout principal -->
+            <div class="admin-layout">
+                <!-- Sidebar de navegación -->
+                <aside class="admin-sidebar">
+                    <h3>Navegación</h3>
+                    <nav class="admin-nav">
+                        <button class="admin-nav-item active" data-section="dashboard">
+                            Dashboard
+                        </button>
+                        <button class="admin-nav-item" data-section="users">
+                            Usuarios
+                        </button>
+                        <button class="admin-nav-item" data-section="products">
+                            Productos
+                        </button>
+                        <button class="admin-nav-item" data-section="orders">
+                            Pedidos
+                        </button>
+                        <button class="admin-nav-item" data-section="reports">
+                            Reportes
+                        </button>
+                        <button class="admin-nav-item" data-section="settings">
+                            Configuración
+                        </button>
+                    </nav>
+
+                    <!-- Acciones rápidas -->
+                    <div style="margin-top: var(--spacing-xl); padding-top: var(--spacing-lg); border-top: 1px solid #e9ecef;">
+                        <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: var(--spacing-md); color: var(--text-muted);">
+                            Acciones Rápidas
+                        </h4>
+                        <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+                            <button class="btn btn-outline" onclick="exportUsersToCSV()" style="font-size: 0.75rem; padding: var(--spacing-xs) var(--spacing-sm);">
+                                Exportar Usuarios
+                            </button>
+                            <button class="btn btn-outline" onclick="exportProductsToCSV()" style="font-size: 0.75rem; padding: var(--spacing-xs) var(--spacing-sm);">
+                                Exportar Productos
+                            </button>
+                            <button class="btn btn-secondary" onclick="backupData()" style="font-size: 0.75rem; padding: var(--spacing-xs) var(--spacing-sm);">
+                                Crear Backup
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Contenido principal -->
+                <main class="admin-main">
+                    <!-- Dashboard -->
+                    <section id="admin-dashboard" class="admin-section active fade-in">
+                        <div class="section-header">
+                            <h2>Dashboard</h2>
+                            <div>
+                                <small class="text-muted">Última actualización: <span id="last-update">-</span></small>
+                            </div>
+                        </div>
+
+                        <!-- Estadísticas principales -->
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <h4>Total Usuarios</h4>
+                                <div class="stat-number" id="total-users">-</div>
+                                <div class="stat-change">Activos en el sistema</div>
+                            </div>
+
+                            <div class="stat-card" style="border-left-color: var(--secondary-color);">
+                                <h4>Total Productos</h4>
+                                <div class="stat-number" id="total-products" style="color: var(--secondary-color);">-</div>
+                                <div class="stat-change">En catálogo</div>
+                            </div>
+
+                            <div class="stat-card" style="border-left-color: var(--warning-color);">
+                                <h4>Stock Total</h4>
+                                <div class="stat-number" id="total-stock" style="color: var(--warning-color);">-</div>
+                                <div class="stat-change">Unidades disponibles</div>
+                            </div>
+
+                            <div class="stat-card" style="border-left-color: var(--danger-color);">
+                                <h4>Stock Crítico</h4>
+                                <div class="stat-number" id="low-stock" style="color: var(--danger-color);">-</div>
+                                <div class="stat-change">Productos con stock bajo</div>
+                            </div>
+                        </div>
+
+                        <!-- Estadísticas adicionales -->
+                        <div class="dashboard-stats" style="margin-bottom: var(--spacing-xl);">
+                            <div class="stat-card" style="border-left-color: #17a2b8;">
+                                <h4>Pedidos del Mes</h4>
+                                <div class="stat-number" id="total-orders" style="color: #17a2b8;">-</div>
+                                <div class="stat-change">+12% vs mes anterior</div>
+                            </div>
+
+                            <div class="stat-card" style="border-left-color: #6f42c1;">
+                                <h4>Ingresos Mensuales</h4>
+                                <div class="stat-number" id="monthly-revenue" style="color: #6f42c1; font-size: 1.5rem;">-</div>
+                                <div class="stat-change">+8% vs mes anterior</div>
+                            </div>
+                        </div>
+
+                        <!-- Actividad reciente -->
+                        <div class="admin-table-container">
+                            <div style="padding: var(--spacing-lg); border-bottom: 1px solid #f1f3f4;">
+                                <h3 style="font-size: 1.125rem; font-weight: 600; margin: 0;">Actividad Reciente</h3>
+                            </div>
+                            <div id="recent-activity" style="padding: var(--spacing-lg);">
+                                <!-- La actividad se cargará dinámicamente -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Gestión de Usuarios -->
+                    <section id="admin-users" class="admin-section">
+                        <div class="section-header">
+                            <h2>Gestión de Usuarios (<span id="users-count">0</span>)</h2>
+                            <button class="btn btn-primary" onclick="addUser()">
+                                Nuevo Usuario
+                            </button>
+                        </div>
+
+                        <!-- Filtros de usuarios -->
+                        <div class="admin-filters">
+                            <div class="form-group">
+                                <label class="form-label">Buscar usuario:</label>
+                                <input type="text" class="form-control" placeholder="Nombre, email o RUN">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Filtrar por rol:</label>
+                                <select class="form-control">
+                                    <option value="">Todos los roles</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Vendedor">Vendedor</option>
+                                    <option value="Cliente">Cliente</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline">Aplicar Filtros</button>
+                        </div>
+
+                        <!-- Tabla de usuarios -->
+                        <div class="admin-table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>RUN</th>
+                                        <th>Nombre</th>
+                                        <th>Email</th>
+                                        <th>Rol</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="users-table-body">
+                                    <!-- Los usuarios se cargarán dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Gestión de Productos -->
+                    <section id="admin-products" class="admin-section">
+                        <div class="section-header">
+                            <h2>Gestión de Productos (<span id="products-count">0</span>)</h2>
+                            <button class="btn btn-primary" onclick="addProduct()">
+                                Nuevo Producto
+                            </button>
+                        </div>
+
+                        <!-- Filtros de productos -->
+                        <div class="admin-filters">
+                            <div class="form-group">
+                                <label class="form-label">Buscar producto:</label>
+                                <input type="text" class="form-control" placeholder="Nombre o código">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Filtrar por categoría:</label>
+                                <select class="form-control">
+                                    <option value="">Todas las categorías</option>
+                                    <option value="Deportivas">Deportivas</option>
+                                    <option value="Running">Running</option>
+                                    <option value="Casual">Casual</option>
+                                    <option value="Skate">Skate</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Estado del stock:</label>
+                                <select class="form-control">
+                                    <option value="">Todos</option>
+                                    <option value="disponible">Disponible</option>
+                                    <option value="bajo">Stock Bajo</option>
+                                    <option value="agotado">Agotado</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline">Aplicar Filtros</button>
+                        </div>
+
+                        <!-- Tabla de productos -->
+                        <div class="admin-table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Stock</th>
+                                        <th>Categoría</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="products-table-body">
+                                    <!-- Los productos se cargarán dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Pedidos (Placeholder) -->
+                    <section id="admin-orders" class="admin-section">
+                        <div class="section-header">
+                            <h2>Gestión de Pedidos</h2>
+                        </div>
+                        <div class="admin-alert warning">
+                            <strong>En desarrollo:</strong> La gestión de pedidos estará disponible próximamente.
+                        </div>
+                    </section>
+
+                    <!-- Reportes (Placeholder) -->
+                    <section id="admin-reports" class="admin-section">
+                        <div class="section-header">
+                            <h2>Reportes y Análisis</h2>
+                        </div>
+                        <div class="admin-alert warning">
+                            <strong>En desarrollo:</strong> Los reportes y análisis estarán disponibles próximamente.
+                        </div>
+                    </section>
+
+                    <!-- Configuración (Placeholder) -->
+                    <section id="admin-settings" class="admin-section">
+                        <div class="section-header">
+                            <h2>Configuración del Sistema</h2>
+                        </div>
+                        <div class="admin-alert warning">
+                            <strong>En desarrollo:</strong> La configuración del sistema estará disponible próximamente.
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer simplificado -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 SneakerStore - Panel de Administración. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/data.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="js/admin.js"></script>
+
+    <!-- Script adicional para actualizar timestamp -->
+    <script>
+        // Actualizar timestamp de última actualización
+        document.addEventListener('DOMContentLoaded', function() {
+            const lastUpdateElement = document.getElementById('last-update');
+            if (lastUpdateElement) {
+                const now = new Date();
+                const timeString = now.toLocaleString('es-CL', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                lastUpdateElement.textContent = timeString;
+            }
+        });
+    </script>
+</body>
+</html>

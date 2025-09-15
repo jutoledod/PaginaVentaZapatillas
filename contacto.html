@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - SneakerStore</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <style>
+        .contact-container {
+            padding: var(--spacing-xl) 0;
+            min-height: calc(100vh - 300px);
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-xl) 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: var(--border-radius-lg);
+        }
+
+        .contact-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-color);
+        }
+
+        .contact-header p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            align-items: start;
+        }
+
+        .contact-info {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            height: fit-content;
+        }
+
+        .contact-info h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-color);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+        }
+
+        .info-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .info-content p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .contact-form-container {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .contact-form-container h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .success-message-contact {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--secondary-color);
+            color: #155724;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-lg);
+            display: none;
+        }
+
+        @media (max-width: 992px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+
+            .contact-info {
+                order: 2;
+            }
+
+            .contact-form-container {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-header h1 {
+                font-size: 2rem;
+            }
+
+            .contact-info,
+            .contact-form-container {
+                padding: var(--spacing-lg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>SneakerStore</h1>
+                </div>
+
+                <nav class="nav">
+                    <button class="nav-item" data-href="index.html">Inicio</button>
+                    <button class="nav-item" data-href="productos.html">Productos</button>
+                    <button class="nav-item" data-href="nosotros.html">Nosotros</button>
+                    <button class="nav-item" data-href="blogs.html">Blogs</button>
+                    <button class="nav-item" data-href="contacto.html">Contacto</button>
+                </nav>
+
+                <div class="header-actions d-flex align-center gap-md">
+                    <span id="user-info" class="user-info"></span>
+                    <button id="cart-button" class="btn btn-outline">
+                        Carrito <span id="cart-count">(0)</span>
+                    </button>
+                    <button id="login-button" class="btn btn-primary" onclick="navigation.goTo('login.html')">
+                        Iniciar Sesión
+                    </button>
+                    <button id="logout-button" class="btn btn-danger d-none">
+                        Cerrar Sesión
+                    </button>
+                    <button class="btn btn-secondary" onclick="navigation.goTo('registro.html')">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="contact-container">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="index.html">Inicio</a>
+                <span class="separator">></span>
+                <span>Contacto</span>
+            </nav>
+
+            <!-- Header de contacto -->
+            <section class="contact-header">
+                <h1>Contáctanos</h1>
+                <p>¿Tienes alguna pregunta o necesitas ayuda? Estamos aquí para asistirte</p>
+            </section>
+
+            <!-- Contenido de contacto -->
+            <div class="contact-content">
+                <!-- Información de contacto -->
+                <div class="contact-info">
+                    <h2>Información de Contacto</h2>
+
+                    <div class="info-item">
+                        <div class="info-icon">📍</div>
+                        <div class="info-content">
+                            <h3>Dirección</h3>
+                            <p>Av. Providencia 1234, Providencia<br>Santiago, Chile</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">📞</div>
+                        <div class="info-content">
+                            <h3>Teléfono</h3>
+                            <p>+56 9 1234 5678<br>Lunes a Viernes: 9:00 - 18:00</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">✉️</div>
+                        <div class="info-content">
+                            <h3>Email</h3>
+                            <p>info@sneakerstore.cl<br>Respuesta en 24 horas</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">🕒</div>
+                        <div class="info-content">
+                            <h3>Horario de Atención</h3>
+                            <p>Lunes a Viernes: 9:00 - 18:00<br>Sábados: 10:00 - 14:00<br>Domingos: Cerrado</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">💬</div>
+                        <div class="info-content">
+                            <h3>Redes Sociales</h3>
+                            <p>@SneakerStoreChile<br>Síguenos para ofertas exclusivas</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario de contacto -->
+                <div class="contact-form-container">
+                    <h2>Envíanos un Mensaje</h2>
+
+                    <div id="success-message" class="success-message-contact">
+                        <strong>¡Mensaje enviado correctamente!</strong><br>
+                        Te responderemos a la brevedad.
+                    </div>
+
+                    <form id="contact-form" novalidate>
+                        <!-- Nombre -->
+                        <div class="form-group">
+                            <label for="contact-name" class="form-label required">Nombre Completo</label>
+                            <input 
+                                type="text" 
+                                id="contact-name" 
+                                name="name" 
+                                class="form-control" 
+                                placeholder="Tu nombre completo"
+                                required
+                                maxlength="100"
+                            >
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="contact-email" class="form-label required">Correo Electrónico</label>
+                            <input 
+                                type="email" 
+                                id="contact-email" 
+                                name="email" 
+                                class="form-control" 
+                                placeholder="tu@email.com"
+                                required
+                                maxlength="100"
+                            >
+                            <small class="form-text text-muted">
+                                Solo se permiten correos @duoc.cl, @profesor.duoc.cl y @gmail.com
+                            </small>
+                        </div>
+
+                        <!-- Asunto -->
+                        <div class="form-group">
+                            <label for="contact-subject" class="form-label">Asunto</label>
+                            <select id="contact-subject" name="subject" class="form-control">
+                                <option value="">Selecciona un asunto</option>
+                                <option value="consulta-producto">Consulta sobre producto</option>
+                                <option value="problema-pedido">Problema con pedido</option>
+                                <option value="devolucion">Devolución o cambio</option>
+                                <option value="sugerencia">Sugerencia</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+
+                        <!-- Mensaje -->
+                        <div class="form-group">
+                            <label for="contact-message" class="form-label required">Comentario</label>
+                            <textarea 
+                                id="contact-message" 
+                                name="message" 
+                                class="form-control" 
+                                rows="5"
+                                placeholder="Escribe tu mensaje aquí..."
+                                required
+                                maxlength="500"
+                            ></textarea>
+                            <small class="form-text text-muted">
+                                Máximo 500 caracteres. <span id="char-count">0/500</span>
+                            </small>
+                        </div>
+
+                        <!-- Checkbox de términos -->
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="contact-terms" name="terms" required>
+                            <label for="contact-terms">
+                                Acepto que mis datos sean utilizados para responder mi consulta
+                            </label>
+                        </div>
+
+                        <!-- Botón de envío -->
+                        <button type="submit" class="btn btn-auth-primary">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- FAQ rápido -->
+            <section class="faq-section" style="
+                margin-top: var(--spacing-xl);
+                background: white;
+                padding: var(--spacing-xl);
+                border-radius: var(--border-radius-lg);
+                box-shadow: var(--shadow-sm);
+            ">
+                <h2 style="text-align: center; margin-bottom: var(--spacing-lg);">
+                    Preguntas Frecuentes
+                </h2>
+                <div style="
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: var(--spacing-lg);
+                ">
+                    <div>
+                        <h3 style="font-size: 1.125rem; color: var(--primary-color); margin-bottom: var(--spacing-sm);">
+                            ¿Cómo puedo rastrear mi pedido?
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; line-height: 1.5;">
+                            Recibirás un email con el código de seguimiento una vez que tu pedido sea despachado.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 style="font-size: 1.125rem; color: var(--primary-color); margin-bottom: var(--spacing-sm);">
+                            ¿Cuál es la política de cambios?
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; line-height: 1.5;">
+                            Aceptamos cambios hasta 30 días después de la compra, con el producto en perfectas condiciones.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 style="font-size: 1.125rem; color: var(--primary-color); margin-bottom: var(--spacing-sm);">
+                            ¿Los productos son originales?
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.875rem; line-height: 1.5;">
+                            Sí, todos nuestros productos son 100% originales con garantía oficial del fabricante.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SneakerStore</h4>
+                    <p>Tu tienda de confianza para las mejores zapatillas</p>
+                    <p>Desde 2020 ofreciendo calidad y estilo</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <p><a href="productos.html">Productos</a></p>
+                    <p><a href="nosotros.html">Nosotros</a></p>
+                    <p><a href="blogs.html">Blog</a></p>
+                    <p><a href="contacto.html">Contacto</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Atención al Cliente</h4>
+                    <p>Teléfono: +56 9 1234 5678</p>
+                    <p>Email: info@sneakerstore.cl</p>
+                    <p>Horario: Lun-Vie 9:00-18:00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SneakerStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        // Script específico para el formulario de contacto
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contact-form');
+            const messageTextarea = document.getElementById('contact-message');
+            const charCount = document.getElementById('char-count');
+            const successMessage = document.getElementById('success-message');
+
+            // Contador de caracteres
+            messageTextarea.addEventListener('input', function() {
+                const currentLength = this.value.length;
+                charCount.textContent = `${currentLength}/500`;
+
+                if (currentLength > 400) {
+                    charCount.style.color = 'var(--warning-color)';
+                } else {
+                    charCount.style.color = 'var(--text-muted)';
+                }
+            });
+
+            // Manejo del formulario de contacto
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+                const data = {
+                    name: formData.get('name').trim(),
+                    email: formData.get('email').trim(),
+                    subject: formData.get('subject'),
+                    message: formData.get('message').trim(),
+                    terms: formData.get('terms')
+                };
+
+                // Limpiar errores previos
+                ui.clearFormErrors(this);
+
+                // Validaciones
+                const errors = {};
+
+                // Validar nombre
+                const nameValidation = validation.name(data.name, 100);
+                if (!nameValidation.valid) {
+                    errors.name = nameValidation.message;
+                }
+
+                // Validar email
+                const emailValidation = validation.email(data.email);
+                if (!emailValidation.valid) {
+                    errors.email = emailValidation.message;
+                }
+
+                // Validar mensaje
+                if (!data.message) {
+                    errors.message = 'Comentario es requerido';
+                } else if (data.message.length > 500) {
+                    errors.message = 'Comentario no puede exceder 500 caracteres';
+                }
+
+                // Validar términos
+                if (!data.terms) {
+                    errors.terms = 'Debes aceptar los términos';
+                }
+
+                // Mostrar errores si los hay
+                if (Object.keys(errors).length > 0) {
+                    Object.keys(errors).forEach(field => {
+                        const elementId = field === 'terms' ? 'contact-terms' : `contact-${field}`;
+                        ui.showError(elementId, errors[field]);
+                    });
+                    return;
+                }
+
+                // Simular envío
+                this.classList.add('loading-form');
+
+                setTimeout(() => {
+                    this.classList.remove('loading-form');
+
+                    // Mostrar mensaje de éxito
+                    successMessage.style.display = 'block';
+
+                    // Limpiar formulario
+                    this.reset();
+                    charCount.textContent = '0/500';
+                    charCount.style.color = 'var(--text-muted)';
+
+                    // Scroll al mensaje de éxito
+                    successMessage.scrollIntoView({ behavior: 'smooth' });
+
+                    // Ocultar mensaje después de 5 segundos
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+
+                    console.log('Mensaje de contacto enviado:', data);
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

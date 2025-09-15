@@ -1,0 +1,433 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - SneakerStore</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .blog-container {
+            padding: var(--spacing-xl) 0;
+            min-height: calc(100vh - 300px);
+        }
+
+        .blog-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-xl) 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: var(--border-radius-lg);
+        }
+
+        .blog-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-color);
+        }
+
+        .blog-header p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .blogs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #007bff 20%, #28a745 80%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-image::before {
+            content: '📰';
+            font-size: 4rem;
+            opacity: 0.3;
+        }
+
+        .blog-content {
+            padding: var(--spacing-lg);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-date {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .blog-title {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.3;
+        }
+
+        .blog-excerpt {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-lg);
+            flex: 1;
+        }
+
+        .blog-read-more {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            transition: gap 0.3s ease;
+        }
+
+        .blog-read-more:hover {
+            gap: var(--spacing-md);
+        }
+
+        .blog-tags {
+            margin-top: var(--spacing-md);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        .blog-tag {
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-full);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .featured-post {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .featured-post .blog-image {
+            height: 300px;
+        }
+
+        .featured-post .blog-content {
+            padding: 0;
+        }
+
+        .featured-post .blog-title {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .featured-post .blog-excerpt {
+            font-size: 1.125rem;
+        }
+
+        @media (max-width: 992px) {
+            .featured-post {
+                grid-template-columns: 1fr;
+            }
+
+            .blogs-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: var(--spacing-lg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-header h1 {
+                font-size: 2rem;
+            }
+
+            .blogs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-post .blog-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>SneakerStore</h1>
+                </div>
+
+                <nav class="nav">
+                    <button class="nav-item" data-href="index.html">Inicio</button>
+                    <button class="nav-item" data-href="productos.html">Productos</button>
+                    <button class="nav-item" data-href="nosotros.html">Nosotros</button>
+                    <button class="nav-item" data-href="blogs.html">Blogs</button>
+                    <button class="nav-item" data-href="contacto.html">Contacto</button>
+                </nav>
+
+                <div class="header-actions d-flex align-center gap-md">
+                    <span id="user-info" class="user-info"></span>
+                    <button id="cart-button" class="btn btn-outline">
+                        Carrito <span id="cart-count">(0)</span>
+                    </button>
+                    <button id="login-button" class="btn btn-primary" onclick="navigation.goTo('login.html')">
+                        Iniciar Sesión
+                    </button>
+                    <button id="logout-button" class="btn btn-danger d-none">
+                        Cerrar Sesión
+                    </button>
+                    <button class="btn btn-secondary" onclick="navigation.goTo('registro.html')">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="blog-container">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="index.html">Inicio</a>
+                <span class="separator">></span>
+                <span>Blog</span>
+            </nav>
+
+            <!-- Header del blog -->
+            <section class="blog-header">
+                <h1>Blog SneakerStore</h1>
+                <p>Noticias, tendencias y todo lo que necesitas saber sobre el mundo de las zapatillas</p>
+            </section>
+
+            <!-- Grid de artículos -->
+            <section class="blogs-grid">
+                <!-- Artículo destacado -->
+                <article class="blog-card featured-post" onclick="navigation.goToBlogDetail(1)">
+                    <div class="blog-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <!-- Placeholder para imagen destacada -->
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">15 de Enero, 2025</div>
+                        <h2 class="blog-title">Las Tendencias de Zapatillas 2025</h2>
+                        <p class="blog-excerpt">
+                            Descubre cuáles serán las zapatillas más populares este año. El mundo de las zapatillas está en constante evolución, 
+                            y 2025 promete traer innovaciones increíbles en diseño, materiales y tecnología.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">Tendencias</span>
+                            <span class="blog-tag">2025</span>
+                            <span class="blog-tag">Moda</span>
+                        </div>
+                        <a href="detalle-blog.html?id=1" class="blog-read-more">
+                            Leer más →
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Artículo regular -->
+                <article class="blog-card" onclick="navigation.goToBlogDetail(2)">
+                    <div class="blog-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <!-- Placeholder para imagen -->
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">10 de Enero, 2025</div>
+                        <h3 class="blog-title">Cómo Cuidar tus Zapatillas Premium</h3>
+                        <p class="blog-excerpt">
+                            Consejos profesionales para mantener tus zapatillas como nuevas. Invertir en zapatillas premium 
+                            requiere cuidados especiales para prolongar su vida útil.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">Cuidado</span>
+                            <span class="blog-tag">Tips</span>
+                            <span class="blog-tag">Mantenimiento</span>
+                        </div>
+                        <a href="detalle-blog.html?id=2" class="blog-read-more">
+                            Leer más →
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Artículo adicional -->
+                <article class="blog-card" onclick="alert('Próximamente más artículos')">
+                    <div class="blog-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <!-- Placeholder para imagen -->
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">5 de Enero, 2025</div>
+                        <h3 class="blog-title">Historia de las Zapatillas Deportivas</h3>
+                        <p class="blog-excerpt">
+                            Un recorrido por la evolución de las zapatillas deportivas, desde sus humildes comienzos 
+                            hasta convertirse en íconos de la moda mundial.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">Historia</span>
+                            <span class="blog-tag">Cultura</span>
+                            <span class="blog-tag">Deportes</span>
+                        </div>
+                        <a href="#" class="blog-read-more">
+                            Próximamente →
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Más artículos -->
+                <article class="blog-card" onclick="alert('Próximamente más artículos')">
+                    <div class="blog-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <!-- Placeholder para imagen -->
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">1 de Enero, 2025</div>
+                        <h3 class="blog-title">Guía de Tallas: Encuentra tu Ajuste Perfecto</h3>
+                        <p class="blog-excerpt">
+                            Aprende a elegir la talla correcta según la marca y el tipo de zapatilla. 
+                            Una guía completa para evitar errores comunes al comprar online.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">Guía</span>
+                            <span class="blog-tag">Tallas</span>
+                            <span class="blog-tag">Compras</span>
+                        </div>
+                        <a href="#" class="blog-read-more">
+                            Próximamente →
+                        </a>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Newsletter signup -->
+            <section class="newsletter-signup" style="
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+                color: white;
+                padding: var(--spacing-xl);
+                border-radius: var(--border-radius-lg);
+                text-align: center;
+            ">
+                <h3 style="font-size: 1.5rem; margin-bottom: var(--spacing-md); color: white;">
+                    ¿Te gustó nuestro contenido?
+                </h3>
+                <p style="margin-bottom: var(--spacing-lg); opacity: 0.9;">
+                    Suscríbete a nuestro newsletter para recibir las últimas tendencias y ofertas exclusivas
+                </p>
+                <div style="display: flex; gap: var(--spacing-md); justify-content: center; max-width: 400px; margin: 0 auto;">
+                    <input type="email" class="form-control" placeholder="tu@email.com" style="flex: 1;">
+                    <button class="btn" style="background: white; color: var(--primary-color); font-weight: 600;">
+                        Suscribir
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SneakerStore</h4>
+                    <p>Tu tienda de confianza para las mejores zapatillas</p>
+                    <p>Desde 2020 ofreciendo calidad y estilo</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <p><a href="productos.html">Productos</a></p>
+                    <p><a href="nosotros.html">Nosotros</a></p>
+                    <p><a href="blogs.html">Blog</a></p>
+                    <p><a href="contacto.html">Contacto</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Atención al Cliente</h4>
+                    <p>Teléfono: +56 9 1234 5678</p>
+                    <p>Email: info@sneakerstore.cl</p>
+                    <p>Horario: Lun-Vie 9:00-18:00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SneakerStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        // Script específico para la página de blogs
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Página de blogs cargada');
+
+            // Manejar newsletter signup
+            const newsletterForm = document.querySelector('.newsletter-signup');
+            const emailInput = newsletterForm.querySelector('input[type="email"]');
+            const subscribeBtn = newsletterForm.querySelector('button');
+
+            subscribeBtn.addEventListener('click', function() {
+                const email = emailInput.value.trim();
+
+                if (!email) {
+                    alert('Por favor ingresa tu email');
+                    return;
+                }
+
+                if (!validation.email(email).valid) {
+                    alert('Por favor ingresa un email válido');
+                    return;
+                }
+
+                // Simulación de suscripción
+                alert('¡Gracias por suscribirte! Recibirás nuestras novedades pronto.');
+                emailInput.value = '';
+            });
+
+            // Enter key en el input de email
+            emailInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    subscribeBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
